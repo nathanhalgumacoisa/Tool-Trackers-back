@@ -18,7 +18,6 @@ CREATE TABLE usuarios(
 CREATE TABLE organizador(
  organizador_id SERIAL PRIMARY KEY,
  nome_organizador VARCHAR(30) NOT NULL,
- nome_suborganizador VARCHAR(30),
  numero_organizador INTEGER
 );
 
