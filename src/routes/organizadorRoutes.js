@@ -1,11 +1,21 @@
-const express = require('express');
-const router = express.Router();
-const organizadorController = require('../controllers/organizadorController');
+import {Router} from "express";
 
-router.get('/organizador', organizadorController.getAllOrganizadores);
-router.get('/organizador/:param', organizadorController.getOrganizadorByParam)
-router.post('/organizador', organizadorController.createOrganizador)
-router.put('/organizador/:organizador_id', organizadorController.updateOrganizador)
-router.delete('/organizador/:organizador_id', organizadorController.deleteOrganizador)
 
-module.exports = router;
+import {
+    createOrganizador,
+    getAllOrganizadores,
+    updateOrganizador,
+    getOrganizadorByParam,
+    deleteOrganizador,
+} from "../controllers/organizadorController.js"
+
+const organizadorRotas = Router();
+
+
+organizadorRotas.get('/', getAllOrganizadores);
+organizadorRotas.get('/:param', getOrganizadorByParam)
+organizadorRotas.post('/', createOrganizador)
+organizadorRotas.put('/:organizador_id', updateOrganizador)
+organizadorRotas.delete('/:organizador_id', deleteOrganizador)
+
+export default organizadorRotas;
