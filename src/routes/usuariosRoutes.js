@@ -1,4 +1,6 @@
 import { Router } from "express";
+const router = express.Router();
+const usuariosController = require('../controllers/usuariosController');
 
 import {
   getAllUsuarios,
@@ -32,3 +34,4 @@ usersRouter.put("/:id", validateUserType, updateUsuarios);
 usersRouter.delete("/:id", deleteUsuarios);
 
 export default usersRouter;
+
