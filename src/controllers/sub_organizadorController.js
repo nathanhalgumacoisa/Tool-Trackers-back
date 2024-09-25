@@ -1,6 +1,6 @@
 const pool = require('../config/dbConfig');
 
-app.get('/sub_organizador', async (req, res) => {
+app.getSub_organizador('/sub_organizador', async (req, res) => {
     try {
         const resultado = await pool.query('SELECT * FROM sub_organizador');
         res.json({
@@ -13,7 +13,7 @@ app.get('/sub_organizador', async (req, res) => {
     }
 });
 
-app.get('/sub_organizador/:sub_organizador_id', async(req, res) => {
+app.getSub_organizadorId('/sub_organizador/:sub_organizador_id', async(req, res) => {
     try {
         const { sub_organizador_id } = req. params;
         const resultado = await pool.query('SELECT * FROM sub_organizador WHERE sub_organizador_id = $1', [sub_organizador_id])
@@ -29,7 +29,7 @@ app.get('/sub_organizador/:sub_organizador_id', async(req, res) => {
     }
 });
 
-app.post('/sub_organizador',async (req, res) => {
+app.postSub_organizador('/sub_organizador',async (req, res) => {
     try {
         const {organizador_id, nome_suborganizador, numero_suborganizador} = req.body;
         await pool.query('INSERT INTO sub_organizador (organizador_id, nome_suborganizador, numero_suborganizador) VALUES ($1, $2, $3)', [organizador_id, nome_suborganizador, numero_suborganizador]);
@@ -40,7 +40,7 @@ app.post('/sub_organizador',async (req, res) => {
     }
 });
 
-app.put('/sub_organizador/:sub_organizador_id', async (req, res) => {
+app.putSub_organizador('/sub_organizador/:sub_organizador_id', async (req, res) => {
     try {
         const { sub_organizador_id } = req.params;
         const {organizador_id, nome_suborganizador, numero_suborganizador} = req.body;
@@ -52,7 +52,7 @@ app.put('/sub_organizador/:sub_organizador_id', async (req, res) => {
     }
 });
 
-app.delete('/sub_organizador/:sub_organizador_id', async (req, res) => {
+app.deleteSub_Organizador('/sub_organizador/:sub_organizador_id', async (req, res) => {
     try {
         const { sub_organizador_id } = req.params;
         const resultado = await pool.query('DELETE FROM sub_organizador WHERE sub_organizador_id = $1', [sub_organizador_id]);
@@ -64,3 +64,5 @@ app.delete('/sub_organizador/:sub_organizador_id', async (req, res) => {
         res.status(500).send('Erro ao apagar o sub organizador');
     }
 });
+
+module.exports = {getSub_organizador, getSub_organizadorId, postSub_organizador, putSub_organizador, deleteSub_Organizador}
