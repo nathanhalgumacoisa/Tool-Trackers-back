@@ -28,3 +28,27 @@ app.get('/sub_organizador/:sub_organizador_id', async(req, res) => {
         res.status(500).send('Erro ao pegar sub organizador por ID');
     }
 });
+
+app.post('/sub_organizador',async (req, res) => {
+    try {
+        const {organizador_id, nome_suborganizador, numero_suborganizador} = req.body;
+        await pool.query('INSERT INTO sub_organizador (organizador_id, nome_suborganizador, numero_suborganizador) VALUES ($1, $2, $3)', [organizador_id, nome_suborganizador, numero_suborganizador]);
+        res.status(201).send({mensagem: 'sub organizador criado com sucesso'});
+    } catch (error) {
+        console.error('Erro ao criar sub organizador', error);
+        res.status(500).send('Erro ao criar sub organizador');
+    }
+});
+
+app.put('/sub_organizador/:sub_organizador_id', async (req, res) => {
+    try {
+        const { sub_organizador_id } = req.params;
+        const {organizador_id, nome_suborganizador, numero_suborganizador} = req.body;
+        await pool.query('UPDATE sub_organizador SET organizador_id = $1, nome_suborganizador = $2, numero_suborganizador = $3 WHERE sub_organizador_id = $5', [sub_organizador_id, organizador_id, nome_suborganizador, numero_suborganizador]);
+        res.status(200).send({mensagem: 'sub organizador atualizado com sucesso'})
+    } catch (error) {
+        console.error('Erro ao atualizar', error);
+        res.status(500).send('Erro ao atualizar');
+    }
+});
+
