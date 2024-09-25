@@ -52,3 +52,15 @@ app.put('/sub_organizador/:sub_organizador_id', async (req, res) => {
     }
 });
 
+app.delete('/sub_organizador/:sub_organizador_id', async (req, res) => {
+    try {
+        const { sub_organizador_id } = req.params;
+        const resultado = await pool.query('DELETE FROM sub_organizador WHERE sub_organizador_id = $1', [sub_organizador_id]);
+        if(resultado.rowCount > 0){
+        res.status(200).send({mensagem: 'sub organizador deletado com sucesso'})
+        }
+    } catch (error) {
+        console.error('Erro ao apagar sub organizador', error);
+        res.status(500).send('Erro ao apagar o sub organizador');
+    }
+});
