@@ -1,7 +1,21 @@
-const express = require('express');
-const router = express.Router();
-const localizacoesController = require('../controllers/localizacoesController');
+import {Router} from "express";
 
 
+import {
+    createLocalizacoes,
+    getAllLocalizacoes,
+    updateLocalizacoes,
+    getLocalizacoesByParam,
+    deleteLocalizacoes,
+} from "../controllers/localizacoesController.js"
 
-router.get('/localizacoes', localizacoesController.getAllLocalizacoes);
+const localizacoesRotas = Router();
+
+
+localizacoesRotas.get('/', getAllLocalizacoes);
+localizacoesRotas.get('/:param', getLocalizacoesByParam)
+localizacoesRotas.post('/', createLocalizacoes)
+localizacoesRotas.put('/:localizacao_id', updateLocalizacoes)
+localizacoesRotas.delete('/:localizacao_id', deleteLocalizacoes)
+
+export default localizacoesRotas;

@@ -1,68 +1,76 @@
-const pool = require('../config/dbConfig');
+import pool from "../config/dbConfig.js"
 
-app.getSub_organizador('/sub_organizador', async (req, res) => {
+export async function getAllSub_organizador (req, res) {
     try {
-        const resultado = await pool.query('SELECT * FROM sub_organizador');
+        const result = await pool.query('SELECT * FROM sub_organizador;');
         res.json({
-            total: resultado.rowCount,
-            sub_organizador: resultado.rows,
+            total: result.rowCount,
+            sub_organizador: result.rows
         });
     } catch (error) {
-        console.error('Erro ao obter todos os sub organizadores', error);
-        res.status(500).send('Erro ao obter os sub organizadores');
+        console.error('Erro ao pegar sub_organizador', error);
+        res.json({ error: error.message });
     }
-});
+};
 
-app.getSub_organizadorId('/sub_organizador/:sub_organizador_id', async(req, res) => {
+
+export async function getSub_organizadorByParam (req, res) {
+    const { param } = req.params;
     try {
-        const { sub_organizador_id } = req. params;
-        const resultado = await pool.query('SELECT * FROM sub_organizador WHERE sub_organizador_id = $1', [sub_organizador_id])
-        if(resultado.rowCount == 0){
-            res.status(404).send({mensagem: 'Id não encontrado'});
+        let result;
+        if (isNaN(param)) {
+            result = await pool.query('SELECT * FROM sub_organizador WHERE categoria LIKE $1;', [`%${param}%`]);
+        } else {
+            result = await pool.query('SELECT * FROM sub_organizador WHERE categoria = $1;', [param]);
         }
+        
         res.json({
-            sub_organizador: resultado.rows[0],
-        })
+            total: result.rowCount,
+            sub_organizador: result.rows
+        });
     } catch (error) {
-        console.error('Erro ao pegar sub organizador por ID ', error);
-        res.status(500).send('Erro ao pegar sub organizador por ID');
+        console.error('Error executing query', error);
+        res.json({ error: error.message });
     }
-});
+};
 
-app.postSub_organizador('/sub_organizador',async (req, res) => {
+export async function createSub_organizador (req, res)  {
     try {
-        const {organizador_id, nome_suborganizador, numero_suborganizador} = req.body;
-        await pool.query('INSERT INTO sub_organizador (organizador_id, nome_suborganizador, numero_suborganizador) VALUES ($1, $2, $3)', [organizador_id, nome_suborganizador, numero_suborganizador]);
-        res.status(201).send({mensagem: 'sub organizador criado com sucesso'});
+        const { organizador_id, nome_suborganizador, numero_suborganizador } = req.body;
+        const result = await pool.query(
+            'INSERT INTO sub_organizador (organizador_id, nome_suborganizador, numero_suborganizador) VALUES ($1, $2, $3) RETURNING *;',
+            [organizador_id, nome_suborganizador, numero_suborganizador]
+        );
+        res.json(result.rows[0]);
     } catch (error) {
-        console.error('Erro ao criar sub organizador', error);
-        res.status(500).send('Erro ao criar sub organizador');
+        console.error('Error executing query', error);
+        res.json({ error: error.message });
     }
-});
+};
 
-app.putSub_organizador('/sub_organizador/:sub_organizador_id', async (req, res) => {
+
+export async function updateSub_organizador (req, res) {
+    const { sub_organizador_id } = req.params;
+    const { organizador_id, nome_suborganizador, numero_suborganizador } = req.body;
     try {
-        const { sub_organizador_id } = req.params;
-        const {organizador_id, nome_suborganizador, numero_suborganizador} = req.body;
-        await pool.query('UPDATE sub_organizador SET organizador_id = $1, nome_suborganizador = $2, numero_suborganizador = $3 WHERE sub_organizador_id = $5', [sub_organizador_id, organizador_id, nome_suborganizador, numero_suborganizador]);
-        res.status(200).send({mensagem: 'sub organizador atualizado com sucesso'})
+        const result = await pool.query(
+            'UPDATE sub_organizador SET organizador_id = $1, nome_suborganizador = $2, numero_suborganizador = $3 WHERE sub_organizador_id = $4 RETURNING ;*',
+            [ organizador_id, nome_suborganizador, numero_suborganizador, sub_organizador_id]
+        );
+        res.json(result.rows[0]);
     } catch (error) {
-        console.error('Erro ao atualizar', error);
-        res.status(500).send('Erro ao atualizar');
+        console.error('Error executing query', error);
+        res.json({ error: error.message });
     }
-});
+};
 
-app.deleteSub_Organizador('/sub_organizador/:sub_organizador_id', async (req, res) => {
+export async function deleteSub_organizador (req, res) {
+    const { sub_organizador_id } = req.params;
     try {
-        const { sub_organizador_id } = req.params;
-        const resultado = await pool.query('DELETE FROM sub_organizador WHERE sub_organizador_id = $1', [sub_organizador_id]);
-        if(resultado.rowCount > 0){
-        res.status(200).send({mensagem: 'sub organizador deletado com sucesso'})
-        }
+        await pool.query('DELETE FROM sub_organizador WHERE sub_organizador_id = $1;', [sub_organizador_id]);
+        res.json({ message: 'sub_organizador deletado com sucesso' });
     } catch (error) {
-        console.error('Erro ao apagar sub organizador', error);
-        res.status(500).send('Erro ao apagar o sub organizador');
+        console.error('Error ao apagar sub_organizador', error);
+        res.json({ error: error.message });
     }
-});
-
-module.exports = {getSub_organizador, getSub_organizadorId, postSub_organizador, putSub_organizador, deleteSub_Organizador}
+};

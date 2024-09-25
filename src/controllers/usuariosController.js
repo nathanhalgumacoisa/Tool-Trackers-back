@@ -1,13 +1,6 @@
-const pool = require('../config/dbConfig')
-const express = require('express');
-const app = express();
-app.use(express.json());
+import pool from "../config/dbConfig.js"
 
-// Tipos permitidos
-const tiposPermitidos = ['aluno', 'instrutor', 'administração', 'manutenção'];
-
-// Buscar todos os usuários
-app.get('/usuarios', async (req, res) => {
+export async function getAllUsuarios (req, res) {
     try {
         const result = await pool.query('SELECT * FROM usuarios;');
         res.json({
@@ -15,95 +8,69 @@ app.get('/usuarios', async (req, res) => {
             usuarios: result.rows
         });
     } catch (error) {
-        console.error('Erro ao buscar usuários', error);
-        res.status(500).json({ error: error.message });
+        console.error('Erro ao pegar usuarios', error);
+        res.json({ error: error.message });
     }
-});
+};
 
-// Buscar usuário por parâmetro (nome ou ID)
-app.get('/usuarios/:param', async (req, res) => {
+
+export async function getUsuariosByParam (req, res) {
     const { param } = req.params;
     try {
+        let result;
         if (isNaN(param)) {
-            const result = await pool.query('SELECT * FROM usuarios WHERE nome ILIKE $1', [`%${param}%;`]);
-            res.json({
-                total: result.rowCount,
-                usuarios: result.rows
-            });
+            result = await pool.query('SELECT * FROM usuarios WHERE categoria LIKE $1;', [`%${param}%`]);
         } else {
-            const result = await pool.query('SELECT * FROM usuarios WHERE usuario_id = $1;', [param]);
-            if (result.rowCount === 0) {
-                return res.status(404).json({ error: 'Usuário não encontrado' });
-            }
-            res.json(result.rows[0]);
+            result = await pool.query('SELECT * FROM usuarios WHERE categoria = $1;', [param]);
         }
+        
+        res.json({
+            total: result.rowCount,
+            usuarios: result.rows
+        });
     } catch (error) {
-        console.error('Erro ao executar a consulta', error);
-        res.status(500).json({ error: error.message });
+        console.error('Error executing query', error);
+        res.json({ error: error.message });
     }
-});
+};
 
-
-// Criar um novo usuário
-app.post('/usuarios', async (req, res) => {
-    const { nome, numero_nif, numero_qrcode, tipo_usuario } = req.body;
-
-// Validação do tipo_usuario
-if (!tiposPermitidos.includes(tipo_usuario)) {
-    return res.status(400).json({ error: 'Tipo inválido. Opções permitidas: aluno, instrutor, administração, manutenção.' });
-}
-
+export async function createUsuarios (req, res)  {
     try {
+        const { nome, numero_nif, numero_qrcode, tipo_usuario } = req.body;
         const result = await pool.query(
             'INSERT INTO usuarios (nome, numero_nif, numero_qrcode, tipo_usuario) VALUES ($1, $2, $3, $4) RETURNING *;',
             [nome, numero_nif, numero_qrcode, tipo_usuario]
         );
-        res.status(201).json(result.rows[0]);
-    } catch (error) {
-        console.error('Erro ao criar usuário', error);
-        res.status(500).json({ error: error.message });
-    }
-});
-
-// Atualizar um usuário existente
-app.put('/usuarios/:usuario_id', async (req, res) => {
-    const { usuario_id } = req.params;
-    const { nome, numero_nif, numero_qrcode, tipo_usuario } = req.body;
-
-// Validação do tipo_usuario se fornecido
-if (tipo_usuario && !tiposPermitidos.includes(tipo_usuario)) {
-    return res.status(400).json({ error: 'Tipo inválido. Opções permitidas: aluno, instrutor, administração, manutenção.' });
-}
-
-    try {
-        const result = await pool.query(
-            'UPDATE usuarios SET nome = $1, numero_nif = $2, numero_qrcode = $3, tipo_usuario = $4 WHERE usuario_id = $5 RETURNING *;',
-            [nome, numero_nif, numero_qrcode, tipo_usuario, usuario_id]
-        );
-        if (result.rowCount === 0) {
-            return res.status(404).json({ error: 'Usuário não encontrado' });
-        }
         res.json(result.rows[0]);
     } catch (error) {
-        console.error('Erro ao atualizar usuário', error);
-        res.status(500).json({ error: error.message });
+        console.error('Error executing query', error);
+        res.json({ error: error.message });
     }
-});
+};
 
-// Deletar um usuário
-app.delete('/usuarios/:usuario_id', async (req, res) => {
-    const { usuario_id } = req.params;
+
+export async function updateUsuarios (req, res) {
+    const { user_id } = req.params;
+    const { nome, numero_nif, numero_qrcode, tipo_usuario } = req.body;
     try {
-        const result = await pool.query('DELETE FROM usuarios WHERE usuario_id = $1;', [usuario_id]);
-        if (result.rowCount === 0) {
-            return res.status(404).json({ error: 'Usuário não encontrado' });
-        }
-        res.json({ message: 'Usuário deletado com sucesso' });
+        const result = await pool.query(
+            'UPDATE usuarios SET nome = $1, numero_nif = $2, numero_qrcode = $3, tipo_usuario = $4 WHERE user_id = $5 RETURNING ;*',
+            [ nome, numero_nif, numero_qrcode, tipo_usuario, user_id]
+        );
+        res.json(result.rows[0]);
     } catch (error) {
-        console.error('Erro ao apagar usuário', error);
-        res.status(500).json({ error: error.message });
+        console.error('Error executing query', error);
+        res.json({ error: error.message });
     }
-});
+};
 
-// Exportar o aplicativo para uso em outro arquivo
-module.exports = app;
+export async function deleteUsuarios (req, res) {
+    const { organizador_id } = req.params;
+    try {
+        await pool.query('DELETE FROM usuarios WHERE user_id = $1;', [user_id]);
+        res.json({ message: 'usuario deletado com sucesso' });
+    } catch (error) {
+        console.error('Error ao apagar usuario', error);
+        res.json({ error: error.message });
+    }
+};

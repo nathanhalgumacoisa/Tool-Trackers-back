@@ -1,37 +1,21 @@
-import { Router } from "express";
-const router = express.Router();
-const usuariosController = require('../controllers/usuariosController');
+import {Router} from "express";
+
 
 import {
-  getAllUsuarios,
-  getUsuariosByParam,
-  createUsuarios,
-  updateUsuarios,
-  deleteUsuarios,
-} from "../controllers/usuariosController";
+    createUsuarios,
+    getAllUsuarios,
+    updateUsuarios,
+    getUsuariosByParam,
+    deleteUsuarios,
+} from "../controllers/usuariosController.js"
 
-const usersRouter = Router();
+const usuariosRotas = Router();
 
-// Tipos permitidos
-const tiposPermitidos = ['aluno', 'instrutor', 'administração', 'manutenção'];
 
-// Middleware para validação do tipo de usuário
-const validateUserType = (req, res, next) => {
-  const { tipo_usuario } = req.body;
-  if (tipo_usuario && !tiposPermitidos.includes(tipo_usuario)) {
-    return res.status(400).json({
-      error: 'Tipo inválido. Opções permitidas: aluno, instrutor, administração, manutenção.',
-    });
-  }
-  next();
-};
+usuariosRotas.get('/', getAllUsuarios);
+usuariosRotas.get('/:param', getUsuariosByParam)
+usuariosRotas.post('/', createUsuarios)
+usuariosRotas.put('/:localizacao_id', updateUsuarios)
+usuariosRotas.delete('/:localizacao_id', deleteUsuarios)
 
-// Rotas
-usersRouter.get("/", getAllUsuarios);
-usersRouter.get("/:param", getUsuariosByParam);
-usersRouter.post("/", validateUserType, createUsuarios);
-usersRouter.put("/:id", validateUserType, updateUsuarios);
-usersRouter.delete("/:id", deleteUsuarios);
-
-export default usersRouter;
-
+export default usuariosRotas;

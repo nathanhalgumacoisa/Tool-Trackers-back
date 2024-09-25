@@ -1,11 +1,21 @@
-const express = require('express');
-const router = express.Router();
-const sub_organizadorController = require('../controllers/sub_organizadorController');
+import {Router} from "express";
 
-router.get('/sub_organizador', sub_organizadorController.getSub_organizador);
-router.post('/sub_organizador', sub_organizadorController.postSub_organizador);
-router.delete('/sub_organizador/:sub_organizador_id', sub_organizadorController.deleteSub_organizador);
-router.put('/sub_organizador/:sub_organizador_id', sub_organizadorController.putSub_organizador);
-router.get('/sub_organizador/:sub_organizador_id', sub_organizadorController.getSub_organizadorId);
 
-module.exports = router;
+import {
+    createSub_organizador,
+    getAllSub_organizador,
+    updateSub_organizador,
+    getSub_organizadorByParam,
+    deleteSub_organizador,
+} from "../controllers/sub_organizadorController.js"
+
+const Sub_organizadorRotas = Router();
+
+
+Sub_organizadorRotas.get('/', getAllSub_organizador);
+Sub_organizadorRotas.get('/:param', getSub_organizadorByParam)
+Sub_organizadorRotas.post('/', createSub_organizador)
+Sub_organizadorRotas.put('/:localizacao_id', updateSub_organizador)
+Sub_organizadorRotas.delete('/:localizacao_id', deleteSub_organizador)
+
+export default Sub_organizadorRotas;
