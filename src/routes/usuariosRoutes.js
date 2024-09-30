@@ -12,7 +12,7 @@ const usuariosRotas = Router();
 
 usuariosRotas.get('/', getAllUsuarios);
 usuariosRotas.get('/:param', getUsuariosByParam)
-usuariosRotas.post('/usuarios', createUsuarios)
+usuariosRotas.post('/', createUsuarios)
 usuariosRotas.put('/:user_id', updateUsuarios)
 usuariosRotas.delete('/:user_id', deleteUsuarios)
 
