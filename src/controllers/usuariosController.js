@@ -65,7 +65,7 @@ export async function updateUsuarios (req, res) {
 };
 
 export async function deleteUsuarios (req, res) {
-    const { organizador_id } = req.params;
+    const { user_id } = req.params;
     try {
         await pool.query('DELETE FROM usuarios WHERE user_id = $1;', [user_id]);
         res.json({ message: 'usuario deletado com sucesso' });
