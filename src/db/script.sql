@@ -1,4 +1,3 @@
-CREATE DATABASE tooltrackers;
 
 \c tooltrackers
 
