@@ -9,13 +9,13 @@ import {
     deleteSub_organizador,
 } from "../controllers/sub_organizadorController.js"
 
-const Sub_organizadorRotas = Router();
+const sub_organizadorRotas = Router();
 
 
-Sub_organizadorRotas.get('/', getAllSub_organizador);
-Sub_organizadorRotas.get('/:param', getSub_organizadorByParam)
-Sub_organizadorRotas.post('/', createSub_organizador)
-Sub_organizadorRotas.put('/:localizacao_id', updateSub_organizador)
-Sub_organizadorRotas.delete('/:localizacao_id', deleteSub_organizador)
+sub_organizadorRotas.get('/', getAllSub_organizador);
+sub_organizadorRotas.get('/:param', getSub_organizadorByParam)
+sub_organizadorRotas.post('/', createSub_organizador)
+sub_organizadorRotas.put('/:localizacao_id', updateSub_organizador)
+sub_organizadorRotas.delete('/:localizacao_id', deleteSub_organizador)
 
-export default Sub_organizadorRotas;
+export default sub_organizadorRotas;
