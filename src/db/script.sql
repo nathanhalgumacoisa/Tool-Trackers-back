@@ -1,3 +1,4 @@
+
 DROP DATABASE IF EXISTS tooltrackers;
 DROP TABLE IF EXISTS usuarios;
 DROP TABLE IF EXISTS organizador;
@@ -13,6 +14,7 @@ DROP TYPE IF EXISTS tipo_usuario_enum;
 
 
 CREATE DATABASE tooltrackers;
+
 
 \c tooltrackers
 
