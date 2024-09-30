@@ -20,8 +20,8 @@ const usuariosRotas = Router();
 usuariosRotas.get('/', getAllUsuarios);
 usuariosRotas.get('/:param', getUsuariosByParam)
 usuariosRotas.post('/', createUsuarios)
-usuariosRotas.put('/:localizacao_id', updateUsuarios)
-usuariosRotas.delete('/:localizacao_id', deleteUsuarios)
+usuariosRotas.put('/:user_id', updateUsuarios)
+usuariosRotas.delete('/:user_id', deleteUsuarios)
 
 
 export default usuariosRotas;

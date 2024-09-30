@@ -20,8 +20,8 @@ const ferramentasRotas = Router();
 ferramentasRotas.get('/', getAllFerramentas);
 ferramentasRotas.get('/:param', getFerramentasByParam)
 ferramentasRotas.post('/', createFerramentas)
-ferramentasRotas.put('/:localizacao_id', updateFerramentas)
-ferramentasRotas.delete('/:localizacao_id', deleteFerramentas)
+ferramentasRotas.put('/:ferramenta_id', updateFerramentas)
+ferramentasRotas.delete('/:ferramenta_id', deleteFerramentas)
 
 
 export default ferramentasRotas;
