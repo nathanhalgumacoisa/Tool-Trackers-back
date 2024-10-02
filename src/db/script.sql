@@ -70,7 +70,7 @@ CREATE TABLE emprestimos(
  ferramenta_id INTEGER,
  user_id INTEGER,
  data_emprestimo TIMESTAMP,
- data_retorno VARCHAR(10),
+ data_retorno DATE,
  local_origem_id INTEGER,
  local_destino_id INTEGER,
  FOREIGN KEY (ferramenta_id) REFERENCES ferramentas(ferramenta_id),
