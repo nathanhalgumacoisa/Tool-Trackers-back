@@ -58,7 +58,7 @@ CREATE TABLE imagens(
 CREATE TABLE localizacoes(
  localizacao_id SERIAL PRIMARY KEY,
  ambiente VARCHAR(20),
- organizador_id INTEGER, 
+ organizador_id INTEGER,
  FOREIGN KEY (organizador_id) REFERENCES organizador(organizador_id)
 );
 

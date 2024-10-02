@@ -22,9 +22,9 @@ export async function getObservacoesByParam (req, res) {
     try {
         let result;
         if (isNaN(param)) {
-            result = await pool.query('SELECT * FROM observacoes WHERE categoria LIKE $1;', [`%${param}%`]);
+            result = await pool.query('SELECT * FROM observacoes WHERE observacao_id LIKE $1;', [`%${param}%`]);
         } else {
-            result = await pool.query('SELECT * FROM observacoes WHERE categoria = $1;', [param]);
+            result = await pool.query('SELECT * FROM observacoes WHERE observacao_id = $1;', [param]);
         }
        
         res.json({
@@ -60,7 +60,7 @@ export async function updateObservacoes (req, res) {
     const { conferencia_id, descricao, data_observacao } = req.body;
     try {
         const result = await pool.query(
-            'UPDATE observacoes SET conferencia_id = $1, descricao = $2, data_observacao = $3 WHERE observacao_id = $4 RETURNING ;*',
+            'UPDATE observacoes SET conferencia_id = $1, descricao = $2, data_observacao = $3 WHERE observacao_id = $4 RETURNING *;',
             [ conferencia_id, descricao, data_observacao, observacao_id ]
         );
         res.json(result.rows[0]);

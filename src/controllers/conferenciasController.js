@@ -22,9 +22,9 @@ export async function getConferenciasByParam (req, res) {
     try {
         let result;
         if (isNaN(param)) {
-            result = await pool.query('SELECT * FROM conferencias WHERE categoria LIKE $1;', [`%${param}%`]);
+            result = await pool.query('SELECT * FROM conferencias WHERE conderencia_id LIKE $1;', [`%${param}%`]);
         } else {
-            result = await pool.query('SELECT * FROM conferencias WHERE categoria = $1;', [param]);
+            result = await pool.query('SELECT * FROM conferencias WHERE conderencia_id = $1;', [param]);
         }
        
         res.json({

@@ -2,20 +2,20 @@ import {Router} from "express";
 
 
 import {
-    createOrganizador,
-    getAllOrganizadores,
-    updateOrganizador,
-    getOrganizadorByParam,
-    deleteOrganizador,
-} from "../controllers/organizadorController.js"
+    createObservacoes,
+    getAllObservacoes,
+    updateObservacoes,
+    getObservacoesByParam,
+    deleteObservacoes,
+} from "../controllers/observacoesController.js"
 
-const organizadorRotas = Router();
+const observacoesRotas = Router();
+ 
 
+observacoesRotas.get('/', getAllObservacoes);
+observacoesRotas.get('/:param', getObservacoesByParam)
+observacoesRotas.post('/', createObservacoes)
+observacoesRotas.put('/:observacao_id', updateObservacoes)
+observacoesRotas.delete('/:observacao_id', deleteObservacoes)
 
-organizadorRotas.get('/', getAllOrganizadores);
-organizadorRotas.get('/:param', getOrganizadorByParam)
-organizadorRotas.post('/', createOrganizador)
-organizadorRotas.put('/:observacao_id', updateOrganizador)
-organizadorRotas.delete('/:observacao_id', deleteOrganizador)
-
-export default organizadorRotas;
+export default observacoesRotas;

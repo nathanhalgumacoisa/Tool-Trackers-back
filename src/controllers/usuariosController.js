@@ -19,9 +19,10 @@ export async function getUsuariosByParam (req, res) {
     try {
         let result;
         if (isNaN(param)) {
-            result = await pool.query('SELECT * FROM usuarios WHERE usuarios LIKE $1;', [`%${param}%`]);
+ N-teste2
+            result = await pool.query('SELECT * FROM usuarios WHERE usuario_id LIKE $1;', [`%${param}%`]);
         } else {
-            result = await pool.query('SELECT * FROM usuarios WHERE usuarios = $1;', [param]);
+            result = await pool.query('SELECT * FROM usuarios WHERE usuario_id = $1;', [param]);
         }
         
         res.json({
