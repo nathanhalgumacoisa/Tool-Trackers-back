@@ -22,9 +22,9 @@ export async function getLog_ferramentasByParam (req, res) {
     try {
         let result;
         if (isNaN(param)) {
-            result = await pool.query('SELECT * FROM log_ferramentas WHERE categoria LIKE $1;', [`%${param}%`]);
+            result = await pool.query('SELECT * FROM log_ferramentas WHERE ferramenta_id LIKE $1;', [`%${param}%`]);
         } else {
-            result = await pool.query('SELECT * FROM log_ferramentas WHERE categoria = $1;', [param]);
+            result = await pool.query('SELECT * FROM log_ferramentas WHERE ferramenta_id = $1;', [param]);
         }
        
         res.json({
