@@ -100,7 +100,8 @@ CREATE TABLE observacoes(
 
 -- Tabela log_ferramentas
 CREATE TABLE log_ferramentas(
- ferramenta_id SERIAL PRIMARY KEY,
+ log_ferramentas SERIAL PRIMARY KEY,
+ ferramenta_id INTEGER,
  nome VARCHAR(100) NOT NULL,
  imagem_url VARCHAR(255) NOT NULL,
  conjunto VARCHAR(30),
@@ -114,5 +115,6 @@ CREATE TABLE log_ferramentas(
  manutencao BOOLEAN DEFAULT FALSE,
  localizacao_id INTEGER,
  data_atualizacao DATE,
+ FOREIGN KEY (ferramenta_id)  REFERENCES ferramentas(ferramenta_id),
  FOREIGN KEY (localizacao_id) REFERENCES localizacoes(localizacao_id)
 );
