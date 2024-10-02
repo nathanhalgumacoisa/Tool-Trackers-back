@@ -9,6 +9,7 @@ import {
     updateFerramentas,
     getFerramentasByParam,
     deleteFerramentas,
+    getFerramentasByFilters,
 } from "../controllers/ferramentasController.js"
 
 
@@ -23,6 +24,7 @@ ferramentasRotas.post('/', createFerramentas)
 
 ferramentasRotas.put('/:ferramenta_id', updateFerramentas)
 ferramentasRotas.delete('/:ferramenta_id', deleteFerramentas)
+ferramentasRotas.get('/:filters', getFerramentasByFilters)
 
 
 

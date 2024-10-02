@@ -175,11 +175,11 @@ INSERT INTO localizacoes (ambiente, organizador_id) VALUES
 
 -- Inserts para a tabela ferramentas
 INSERT INTO ferramentas (nome, imagem_url, conjunto, numero, patrimonio, modelo, descricao, disponivel, localizacao_id) VALUES
-('Ferramenta 1', 'http://exemplo.com/ferr1.jpg', 'Conjunto A', '001', 'PATR001', 'Modelo 1', 'Descrição 1', TRUE, 1),
-('Ferramenta 2', 'http://exemplo.com/ferr2.jpg', 'Conjunto B', '002', 'PATR002', 'Modelo 2', 'Descrição 2', TRUE, 2),
-('Ferramenta 3', 'http://exemplo.com/ferr3.jpg', 'Conjunto C', '003', 'PATR003', 'Modelo 3', 'Descrição 3', FALSE, 3),
-('Ferramenta 4', 'http://exemplo.com/ferr4.jpg', 'Conjunto D', '004', 'PATR004', 'Modelo 4', 'Descrição 4', TRUE, 4),
-('Ferramenta 5', 'http://exemplo.com/ferr5.jpg', 'Conjunto E', '005', 'PATR005', 'Modelo 5', 'Descrição 5', TRUE, 5);
+('Ferramenta 1', 'http://exemplo.com/ferr1.jpg', 'Conjunto A', '001', 'PATR001', 'Modelo 1', 'Descrição 1', TRUE, 6),
+('Ferramenta 2', 'http://exemplo.com/ferr2.jpg', 'Conjunto B', '002', 'PATR002', 'Modelo 2', 'Descrição 2', TRUE, 7),
+('Ferramenta 3', 'http://exemplo.com/ferr3.jpg', 'Conjunto C', '003', 'PATR003', 'Modelo 3', 'Descrição 3', FALSE, 8),
+('Ferramenta 4', 'http://exemplo.com/ferr4.jpg', 'Conjunto D', '004', 'PATR004', 'Modelo 4', 'Descrição 4', TRUE, 9),
+('Ferramenta 5', 'http://exemplo.com/ferr5.jpg', 'Conjunto E', '005', 'PATR005', 'Modelo 5', 'Descrição 5', TRUE, 10);
 
 -- Inserts para a tabela emprestimos
 INSERT INTO emprestimos (ferramenta_id, user_id, data_emprestimo, data_retorno, local_origem_id, local_destino_id) VALUES
