@@ -15,12 +15,10 @@ DROP TYPE IF EXISTS tipo_usuario_enum;
 
 CREATE DATABASE tooltrackers;
 
-
 \c tooltrackers
 
 CREATE TYPE tipo_usuario_enum AS ENUM ('aluno', 'administracao', 'instrutor', 'manutencao');
 
--- Tabela usuarios
 CREATE TABLE usuarios(
  user_id SERIAL PRIMARY KEY,
  nome VARCHAR(50) NOT NULL,
@@ -29,14 +27,12 @@ CREATE TABLE usuarios(
  tipo_usuario tipo_usuario_enum
 );
 
--- Tabela organizador
 CREATE TABLE organizador(
  organizador_id SERIAL PRIMARY KEY,
  nome_organizador VARCHAR(30) NOT NULL,
  numero_organizador INTEGER
 );
 
--- Tabela sub_organizador
 CREATE TABLE sub_organizador(
  sub_organizador_id SERIAL PRIMARY KEY,
  organizador_id INTEGER,
@@ -45,7 +41,6 @@ CREATE TABLE sub_organizador(
  FOREIGN KEY (organizador_id) REFERENCES organizador(organizador_id)
 );
 
--- Tabela imagens
 CREATE TABLE imagens(
  imagem_id SERIAL PRIMARY KEY,
  url_imagem VARCHAR(50) NOT NULL,
@@ -54,14 +49,13 @@ CREATE TABLE imagens(
  FOREIGN KEY (sub_organizador_id) REFERENCES sub_organizador(sub_organizador_id)
 );
 
--- Tabela localizacoes
 CREATE TABLE localizacoes(
  localizacao_id SERIAL PRIMARY KEY,
  ambiente VARCHAR(20),
- organizador_id FOREIGN KEY (organizador_id) REFERENCES organizador(organizador_id)
+ organizador_id INTEGER,
+ FOREIGN KEY (organizador_id) REFERENCES organizador(organizador_id)
 );
 
--- Tabela ferramentas
 CREATE TABLE ferramentas(
  ferramenta_id SERIAL PRIMARY KEY,
  nome VARCHAR(100) NOT NULL,
@@ -79,7 +73,6 @@ CREATE TABLE ferramentas(
  FOREIGN KEY (localizacao_id) REFERENCES localizacoes(localizacao_id)
 );
 
--- Tabela emprestimos
 CREATE TABLE emprestimos(
  emprestimo_id SERIAL PRIMARY KEY,
  ferramenta_id INTEGER,
@@ -94,7 +87,6 @@ CREATE TABLE emprestimos(
  FOREIGN KEY (local_destino_id) REFERENCES localizacoes(localizacao_id)
 );
 
--- Tabela conferencias
 CREATE TABLE conferencias(
  conferencia_id SERIAL PRIMARY KEY,
  user_id INTEGER,
@@ -104,7 +96,6 @@ CREATE TABLE conferencias(
  FOREIGN KEY (localizacao_id) REFERENCES localizacoes(localizacao_id)
 );
 
--- Tabela observacoes
 CREATE TABLE observacoes(
  observacao_id SERIAL PRIMARY KEY,
  conferencia_id INTEGER,
@@ -113,7 +104,6 @@ CREATE TABLE observacoes(
  FOREIGN KEY (conferencia_id) REFERENCES conferencias(conferencia_id)
 );
 
--- Tabela log_ferramentas
 CREATE TABLE log_ferramentas(
  ferramenta_id SERIAL PRIMARY KEY,
  nome VARCHAR(100) NOT NULL,
@@ -132,7 +122,6 @@ CREATE TABLE log_ferramentas(
  FOREIGN KEY (localizacao_id) REFERENCES localizacoes(localizacao_id)
 );
 
--- Inserts para a tabela usuarios
 INSERT INTO usuarios (nome, numero_nif, numero_qrcode, tipo_usuario) VALUES
 ('Alice', '1234567', 'QR1234', 'aluno'),
 ('Bob', '2345678', 'QR2345', 'administracao'),
@@ -140,7 +129,6 @@ INSERT INTO usuarios (nome, numero_nif, numero_qrcode, tipo_usuario) VALUES
 ('Diana', '4567890', 'QR4567', 'manutencao'),
 ('Eve', '5678901', 'QR5678', 'aluno');
 
--- Inserts para a tabela organizador
 INSERT INTO organizador (nome_organizador, numero_organizador) VALUES
 ('Organizador A', 101),
 ('Organizador B', 102),
@@ -148,7 +136,6 @@ INSERT INTO organizador (nome_organizador, numero_organizador) VALUES
 ('Organizador D', 104),
 ('Organizador E', 105);
 
--- Inserts para a tabela sub_organizador
 INSERT INTO sub_organizador (organizador_id, nome_suborganizador, numero_suborganizador) VALUES
 (1, 'Sub A1', 201),
 (1, 'Sub A2', 202),
@@ -156,7 +143,6 @@ INSERT INTO sub_organizador (organizador_id, nome_suborganizador, numero_suborga
 (2, 'Sub B2', 204),
 (3, 'Sub C1', 205);
 
--- Inserts para a tabela imagens
 INSERT INTO imagens (url_imagem, descricao, sub_organizador_id) VALUES
 ('http://exemplo.com/imagem1.jpg', 'Imagem 1', 1),
 ('http://exemplo.com/imagem2.jpg', 'Imagem 2', 2),
@@ -164,7 +150,6 @@ INSERT INTO imagens (url_imagem, descricao, sub_organizador_id) VALUES
 ('http://exemplo.com/imagem4.jpg', 'Imagem 4', 1),
 ('http://exemplo.com/imagem5.jpg', 'Imagem 5', 2);
 
--- Inserts para a tabela localizacoes
 INSERT INTO localizacoes (ambiente, organizador_id) VALUES
 ('Sala A', 1),
 ('Sala B', 2),
@@ -172,7 +157,6 @@ INSERT INTO localizacoes (ambiente, organizador_id) VALUES
 ('Sala D', 4),
 ('Sala E', 5);
 
--- Inserts para a tabela ferramentas
 INSERT INTO ferramentas (nome, imagem_url, conjunto, numero, patrimonio, modelo, descricao, disponivel, localizacao_id) VALUES
 ('Ferramenta 1', 'http://exemplo.com/ferr1.jpg', 'Conjunto A', '001', 'PATR001', 'Modelo 1', 'Descrição 1', TRUE, 1),
 ('Ferramenta 2', 'http://exemplo.com/ferr2.jpg', 'Conjunto B', '002', 'PATR002', 'Modelo 2', 'Descrição 2', TRUE, 2),
@@ -180,7 +164,6 @@ INSERT INTO ferramentas (nome, imagem_url, conjunto, numero, patrimonio, modelo,
 ('Ferramenta 4', 'http://exemplo.com/ferr4.jpg', 'Conjunto D', '004', 'PATR004', 'Modelo 4', 'Descrição 4', TRUE, 4),
 ('Ferramenta 5', 'http://exemplo.com/ferr5.jpg', 'Conjunto E', '005', 'PATR005', 'Modelo 5', 'Descrição 5', TRUE, 5);
 
--- Inserts para a tabela emprestimos
 INSERT INTO emprestimos (ferramenta_id, user_id, data_emprestimo, data_retorno, local_origem_id, local_destino_id) VALUES
 (1, 1, NOW(), NOW() + INTERVAL '7 days', 1, 2),
 (2, 2, NOW(), NOW() + INTERVAL '5 days', 2, 3),
@@ -188,7 +171,6 @@ INSERT INTO emprestimos (ferramenta_id, user_id, data_emprestimo, data_retorno, 
 (4, 4, NOW(), NOW() + INTERVAL '3 days', 4, 5),
 (5, 5, NOW(), NOW() + INTERVAL '14 days', 5, 4);
 
--- Inserts para a tabela conferencias
 INSERT INTO conferencias (user_id, localizacao_id, data_conferencia) VALUES
 (1, 1, NOW()),
 (2, 2, NOW()),
@@ -196,7 +178,6 @@ INSERT INTO conferencias (user_id, localizacao_id, data_conferencia) VALUES
 (4, 4, NOW()),
 (5, 5, NOW());
 
--- Inserts para a tabela observacoes
 INSERT INTO observacoes (conferencia_id, descricao, data_observacao) VALUES
 (1, 'Observação 1', NOW()),
 (2, 'Observação 2', NOW()),
@@ -204,7 +185,6 @@ INSERT INTO observacoes (conferencia_id, descricao, data_observacao) VALUES
 (4, 'Observação 4', NOW()),
 (5, 'Observação 5', NOW());
 
--- Inserts para a tabela log_ferramentas
 INSERT INTO log_ferramentas (nome, imagem_url, conjunto, numero, patrimonio, modelo, descricao, disponivel, localizacao_id, data_atualizacao) VALUES
 ('Log Ferramenta 1', 'http://exemplo.com/log1.jpg', 'Conjunto A', '001', 'PATR001', 'Modelo 1', 'Descrição 1', TRUE, 1, NOW()),
 ('Log Ferramenta 2', 'http://exemplo.com/log2.jpg', 'Conjunto B', '002', 'PATR002', 'Modelo 2', 'Descrição 2', TRUE, 2, NOW()),
