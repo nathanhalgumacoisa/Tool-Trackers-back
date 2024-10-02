@@ -172,11 +172,11 @@ INSERT INTO emprestimos (ferramenta_id, user_id, data_emprestimo, data_retorno, 
 (5, 5, NOW(), NOW() + INTERVAL '14 days', 5, 4);
 
 INSERT INTO conferencias (user_id, localizacao_id, data_conferencia) VALUES
-(1, 1, NOW()),
-(2, 2, NOW()),
-(3, 3, NOW()),
-(4, 4, NOW()),
-(5, 5, NOW());
+(1, 6, NOW()),
+(2, 7, NOW()),
+(3, 8, NOW()),
+(4, 9, NOW()),
+(5, 10, NOW());
 
 INSERT INTO observacoes (conferencia_id, descricao, data_observacao) VALUES
 (1, 'Observação 1', NOW()),
