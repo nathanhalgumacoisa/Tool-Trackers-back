@@ -22,9 +22,9 @@ export async function getConferenciasByParam (req, res) {
     try {
         let result;
         if (isNaN(param)) {
-            result = await pool.query('SELECT * FROM conferencias WHERE conderencia_id LIKE $1;', [`%${param}%`]);
+            result = await pool.query('SELECT * FROM conferencias WHERE conferencia_id LIKE $1;', [`%${param}%`]);
         } else {
-            result = await pool.query('SELECT * FROM conferencias WHERE conderencia_id = $1;', [param]);
+            result = await pool.query('SELECT * FROM conferencias WHERE conferencia_id = $1;', [param]);
         }
        
         res.json({
@@ -60,7 +60,7 @@ export async function updateConferencias (req, res) {
     const { user_id, localizacao_id, data_conferencia } = req.body;
     try {
         const result = await pool.query(
-            'UPDATE conferencias SET user_id = $1, localizacao_id = $2, data_conferencia = $3 WHERE conferencia_id = $4 RETURNING ;*',
+            'UPDATE conferencias SET user_id = $1, localizacao_id = $2, data_conferencia = $3 WHERE conferencia_id = $4 RETURNING *;',
             [user_id, localizacao_id, data_conferencia, conferencia_id ]
         );
         res.json(result.rows[0]);
