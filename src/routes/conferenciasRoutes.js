@@ -20,8 +20,10 @@ const conferenciasRotas = Router();
 conferenciasRotas.get('/', getAllConferencias);
 conferenciasRotas.get('/:param', getConferenciasByParam)
 conferenciasRotas.post('/', createConferencias)
+
 conferenciasRotas.put('/:conferencia_id', updateConferencias)
 conferenciasRotas.delete('/:conferencia_id', deleteConferencias)
 
 
 export default conferenciasRotas;
+

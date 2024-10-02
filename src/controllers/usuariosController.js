@@ -19,6 +19,7 @@ export async function getUsuariosByParam (req, res) {
     try {
         let result;
         if (isNaN(param)) {
+ N-teste2
             result = await pool.query('SELECT * FROM usuarios WHERE usuario_id LIKE $1;', [`%${param}%`]);
         } else {
             result = await pool.query('SELECT * FROM usuarios WHERE usuario_id = $1;', [param]);
@@ -54,7 +55,7 @@ export async function updateUsuarios (req, res) {
     const { nome, numero_nif, numero_qrcode, tipo_usuario } = req.body;
     try {
         const result = await pool.query(
-            'UPDATE usuarios SET nome = $1, numero_nif = $2, numero_qrcode = $3, tipo_usuario = $4 WHERE user_id = $5 RETURNING ;*',
+            'UPDATE usuarios SET nome = $1, numero_nif = $2, numero_qrcode = $3, tipo_usuario = $4 WHERE user_id = $5 RETURNING *;',
             [ nome, numero_nif, numero_qrcode, tipo_usuario, user_id]
         );
         res.json(result.rows[0]);

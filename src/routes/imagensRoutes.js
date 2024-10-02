@@ -20,8 +20,10 @@ const imagensRotas = Router();
 imagensRotas.get('/', getAllImagens);
 imagensRotas.get('/:param', getImagensByParam)
 imagensRotas.post('/', createImagens)
+
 imagensRotas.put('/:imagem_id', updateImagens)
 imagensRotas.delete('/:imagem_id', deleteImagens)
 
 
 export default imagensRotas;
+

@@ -135,11 +135,11 @@ CREATE TABLE log_ferramentas(
 
 -- Inserts para a tabela usuarios
 INSERT INTO usuarios (nome, numero_nif, numero_qrcode, tipo_usuario) VALUES
-('Alice', '1234567', 'QR1234', 'aluno'),
-('Bob', '2345678', 'QR2345', 'administracao'),
-('Charlie', '3456789', 'QR3456', 'instrutor'),
-('Diana', '4567890', 'QR4567', 'manutencao'),
-('Eve', '5678901', 'QR5678', 'aluno');
+('Alice', '1234567', '12345678901234567890', 'aluno'),
+('Bob', '2345678', '23456789012345678901', 'administracao'),
+('Charlie', '3456789', '34567890123456789012', 'instrutor'),
+('Diana', '4567890', '45678901234567890123', 'manutencao'),
+('Eve', '5678901', '56789012345678901234', 'aluno');
 
 -- Inserts para a tabela organizador
 INSERT INTO organizador (nome_organizador, numero_organizador) VALUES
