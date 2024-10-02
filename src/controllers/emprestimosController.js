@@ -22,9 +22,9 @@ export async function getEmprestimosByParam (req, res) {
     try {
         let result;
         if (isNaN(param)) {
-            result = await pool.query('SELECT * FROM emprestimos WHERE categoria LIKE $1;', [`%${param}%`]);
+            result = await pool.query('SELECT * FROM emprestimos WHERE emprestimos_id LIKE $1;', [`%${param}%`]);
         } else {
-            result = await pool.query('SELECT * FROM emprestimos WHERE categoria = $1;', [param]);
+            result = await pool.query('SELECT * FROM emprestimos WHERE emprestimos = $1;', [param]);
         }
        
         res.json({
@@ -42,8 +42,8 @@ export async function createEmprestimos (req, res)  {
     try {
         const { ferramenta_id, user_id, data_emprestimo, data_retorno, local_origem_id, local_destino_id} = req.body;
         const result = await pool.query(
-            'INSERT INTO emprestimos (ferramenta_id, user_id, data_emprestimo, data_retorno, local_origem_id, local_destino_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;',
-            [ferramenta_id, user_id, data_emprestimo, data_retorno, local_origem_id, local_destino_id]
+            'INSERT INTO emprestimos (ferramenta_id, user_id, data_emprestimo, data_retorno, local_origem_id, local_destino_id) VALUES ($1, $2, NOW(), NOW() + INTERVAL $3, $4, $5) RETURNING *;',
+            [ferramenta_id, user_id, data_retorno, local_origem_id, local_destino_id]
         );
         res.json(result.rows[0]);
     } catch (error) {
@@ -60,7 +60,7 @@ export async function updateEmprestimos (req, res) {
     const { ferramenta_id, user_id, data_emprestimo, data_retorno, local_origem_id, local_destino_id } = req.body;
     try {
         const result = await pool.query(
-            'UPDATE emprestimos SET ferramenta_id = $1, user_id = $2, data_emprestimo = $3, data_retorno = $4, local_origem_id = $5, local_destino_id = $6 WHERE emprestimo_id  = $7 RETURNING ;*',
+            'UPDATE emprestimos SET ferramenta_id = $1, user_id = $2, data_emprestimo = $3, data_retorno = $4, local_origem_id = $5, local_destino_id = $6 WHERE emprestimo_id  = $7 RETURNING *;',
             [ferramenta_id, user_id, data_emprestimo, data_retorno, local_origem_id, local_destino_id, emprestimo_id ]
         );
         res.json(result.rows[0]);
