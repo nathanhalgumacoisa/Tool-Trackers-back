@@ -22,9 +22,9 @@ export async function getEmprestimosByParam (req, res) {
     try {
         let result;
         if (isNaN(param)) {
-            result = await pool.query('SELECT * FROM emprestimos WHERE categoria LIKE $1;', [`%${param}%`]);
+            result = await pool.query('SELECT * FROM emprestimos WHERE emprestimo_id LIKE $1;', [`%${param}%`]);
         } else {
-            result = await pool.query('SELECT * FROM emprestimos WHERE categoria = $1;', [param]);
+            result = await pool.query('SELECT * FROM emprestimos WHERE emprestimo_id = $1;', [param]);
         }
        
         res.json({

@@ -22,9 +22,9 @@ export async function getObservacoesByParam (req, res) {
     try {
         let result;
         if (isNaN(param)) {
-            result = await pool.query('SELECT * FROM observacoes WHERE categoria LIKE $1;', [`%${param}%`]);
+            result = await pool.query('SELECT * FROM observacoes WHERE observacao_id LIKE $1;', [`%${param}%`]);
         } else {
-            result = await pool.query('SELECT * FROM observacoes WHERE categoria = $1;', [param]);
+            result = await pool.query('SELECT * FROM observacoes WHERE observacao_id = $1;', [param]);
         }
        
         res.json({
