@@ -1,5 +1,5 @@
-//const pool = require('../config/dbConfig')
 import pool from "../config/dbConfig.js"
+
 
 export async function getAllOrganizadores (req, res) {
     try {
@@ -15,6 +15,8 @@ export async function getAllOrganizadores (req, res) {
 };
 
 
+
+
 export async function getOrganizadorByParam (req, res) {
     const { param } = req.params;
     try {
@@ -24,7 +26,7 @@ export async function getOrganizadorByParam (req, res) {
         } else {
             result = await pool.query('SELECT * FROM organizador WHERE organizador_id = $1;', [param]);
         }
-        
+       
         res.json({
             total: result.rowCount,
             organizador: result.rows
@@ -34,6 +36,7 @@ export async function getOrganizadorByParam (req, res) {
         res.json({ error: error.message });
     }
 };
+
 
 export async function createOrganizador (req, res)  {
     try {
@@ -48,6 +51,8 @@ export async function createOrganizador (req, res)  {
         res.json({ error: error.message });
     }
 };
+
+
 
 
 export async function updateOrganizador (req, res) {
@@ -65,8 +70,11 @@ export async function updateOrganizador (req, res) {
     }
 };
 
+
 export async function deleteOrganizador (req, res) {
     const { organizador_id } = req.params;
+    console.log(organizador_id);
+
     try {
         await pool.query('DELETE FROM organizador WHERE organizador_id = $1;', [organizador_id]);
         res.json({ message: 'Organizador deletado com sucesso' });
@@ -74,5 +82,6 @@ export async function deleteOrganizador (req, res) {
         console.error('Error ao apagar organizador', error);
         res.json({ error: error.message });
     }
-};
 
+    
+};

@@ -15,7 +15,7 @@ const organizadorRotas = Router();
 organizadorRotas.get('/', getAllOrganizadores);
 organizadorRotas.get('/:param', getOrganizadorByParam)
 organizadorRotas.post('/', createOrganizador)
-organizadorRotas.put('/:organizador_id', updateOrganizador)
-organizadorRotas.delete('/:organizador_id', deleteOrganizador)
+organizadorRotas.put('/:observacao_id', updateOrganizador)
+organizadorRotas.delete('/:observacao_id', deleteOrganizador)
 
 export default organizadorRotas;
