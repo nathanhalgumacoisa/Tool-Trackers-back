@@ -20,9 +20,9 @@ export async function getOrganizadorByParam (req, res) {
     try {
         let result;
         if (isNaN(param)) {
-            result = await pool.query('SELECT * FROM organizador WHERE categoria LIKE $1;', [`%${param}%`]);
+            result = await pool.query('SELECT * FROM organizador WHERE organizador_id LIKE $1;', [`%${param}%`]);
         } else {
-            result = await pool.query('SELECT * FROM organizador WHERE categoria = $1;', [param]);
+            result = await pool.query('SELECT * FROM organizador WHERE organizador_id = $1;', [param]);
         }
         
         res.json({
@@ -55,7 +55,7 @@ export async function updateOrganizador (req, res) {
     const { nome_organizador, numero_organizador } = req.body;
     try {
         const result = await pool.query(
-            'UPDATE organizador SET nome_organizador = $1, numero_organizador = $2 WHERE organizador_id = $3 RETURNING ;*',
+            'UPDATE organizador SET nome_organizador = $1, numero_organizador = $2 WHERE organizador_id = $3 RETURNING *;',
             [nome_organizador, numero_organizador, organizador_id]
         );
         res.json(result.rows[0]);
