@@ -1,5 +1,5 @@
+import { Router } from "express";
 
-import {Router} from "express";
 import usuariosRouter from "./usuariosRoutes.js";
 import organizadorRouter from "./organizadorRoutes.js";
 import sub_organizadorRouter from "./sub_organizadorRoutes.js";
@@ -11,16 +11,10 @@ import conferenciasRouter from "./conferenciasRoutes.js";
 import observacoesRouter from "./observacoesRoutes.js";
 import log_ferramentasRouter from "./log_ferramentasRoutes.js";
 
-
-
-
-
-
 const rotas = Router();
 
-
 rotas.get("/", (req, res) => {
-    res.status(200).send({message: "Servidor rodando perfeitamente"});
+    res.status(200).send({ message: "Servidor rodando perfeitamente" });
 });
 
 
@@ -36,4 +30,4 @@ rotas.use("/observacoes", observacoesRouter);
 rotas.use("/log_ferramentas", log_ferramentasRouter);
 
 
-export {rotas} ;
+export default rotas;

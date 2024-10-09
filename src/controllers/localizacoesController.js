@@ -1,7 +1,7 @@
 //const pool = require('../config/dbConfig')
 import pool from "../config/dbConfig.js"
 
-export async function getAllLocalizacoes (req, res) {
+export async function getAllLocalizacoes(req, res) {    
     try {
         const result = await pool.query('SELECT * FROM localizacoes;');
         res.json({
@@ -15,16 +15,18 @@ export async function getAllLocalizacoes (req, res) {
 };
 
 
-export async function getLocalizacoesByParam (req, res) {
+export async function getLocalizacoesByParam(req, res) {
     const { param } = req.params;
+    console.log(param);
+    
     try {
         let result;
         if (isNaN(param)) {
-            result = await pool.query('SELECT * FROM localizacoes WHERE localizacao LIKE $1;', [`%${param}%`]);
+            result = await pool.query('SELECT * FROM localizacoes WHERE slug LIKE $1;', [`%${param}%`]);
         } else {
-            result = await pool.query('SELECT * FROM localizacoes WHERE localizacao = $1;', [param]);
+            result = await pool.query('SELECT * FROM localizacoes WHERE slug = $1;', [param]);
         }
-        
+
         res.json({
             total: result.rowCount,
             localizacoes: result.rows
@@ -35,7 +37,7 @@ export async function getLocalizacoesByParam (req, res) {
     }
 };
 
-export async function createLocalizacoes (req, res)  {
+export async function createLocalizacoes(req, res) {
     try {
         const { ambiente, organizador_id } = req.body;
         const result = await pool.query(
@@ -65,7 +67,7 @@ export async function updateLocalizacoes(req, res) {
     }
 };
 
-export async function deleteLocalizacoes (req, res) {
+export async function deleteLocalizacoes(req, res) {
     const { localizacao_id } = req.params;
     try {
         await pool.query('DELETE FROM localizacoes WHERE localizacao_id = $1;', [localizacao_id]);

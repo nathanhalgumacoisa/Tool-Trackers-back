@@ -13,7 +13,7 @@ const localizacoesRotas = Router();
 
 
 localizacoesRotas.get('/', getAllLocalizacoes);
-localizacoesRotas.get('/:param', getLocalizacoesByParam)
+localizacoesRotas.get('/lista/:param', getLocalizacoesByParam)
 localizacoesRotas.post('/', createLocalizacoes)
 localizacoesRotas.put('/:localizacao_id', updateLocalizacoes)
 localizacoesRotas.delete('/:localizacao_id', deleteLocalizacoes)
