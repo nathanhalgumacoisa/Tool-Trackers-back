@@ -53,6 +53,7 @@ CREATE TABLE localizacoes(
  localizacao_id SERIAL PRIMARY KEY,
  ambiente VARCHAR(20),
  organizador_id INTEGER,
+ slug VARCHAR(20),
  FOREIGN KEY (organizador_id) REFERENCES organizador(organizador_id)
 );
 
@@ -124,6 +125,7 @@ CREATE TABLE log_ferramentas(
  FOREIGN KEY (localizacao_id) REFERENCES localizacoes(localizacao_id)
 );
 
+
 INSERT INTO usuarios (nome, numero_nif, numero_qrcode, tipo_usuario) VALUES
 ('Alice', '1234567', '12345678901234567890', 'aluno'),
 ('Bob', '2345678', '23456789012345678901', 'administracao'),
@@ -152,12 +154,11 @@ INSERT INTO imagens (url_imagem, descricao, sub_organizador_id) VALUES
 ('http://exemplo.com/imagem4.jpg', 'Imagem 4', 1),
 ('http://exemplo.com/imagem5.jpg', 'Imagem 5', 2);
 
-INSERT INTO localizacoes (ambiente, organizador_id) VALUES
-('Sala A', 1),
-('Sala B', 2),
-('Sala C', 3),
-('Sala D', 4),
-('Sala E', 5);
+INSERT INTO localizacoes (ambiente, organizador_id, slug) VALUES
+('Manutencao', 1, 'manut'),
+('Espaco Maker', 2, 'em'),
+('Oficina de Eletrica', 3, 'oee'),
+('Mecanica Usinagem', 4, 'ofm');
 
 INSERT INTO ferramentas (nome, imagem_url, conjunto, numero, patrimonio, modelo, descricao, disponivel, localizacao_id) VALUES
 ('Ferramenta 1', 'http://exemplo.com/ferr1.jpg', 'Conjunto A', '001', 'PATR001', 'Modelo 1', 'Descrição 1', TRUE, 1),

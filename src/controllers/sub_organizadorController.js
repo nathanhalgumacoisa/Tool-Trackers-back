@@ -20,22 +20,38 @@ export async function getSub_organizadorByParam(req, res) {
         let result;
         if (isNaN(param)) {
             result = await pool.query(`
-                SELECT so.*, i.*
-                FROM sub_organizador so
-                INNER JOIN imagens i ON so.sub_organizador_id = i.sub_organizador_id
-                WHERE so.sub_organizador_id LIKE $1;
-    
+                SELECT 
+                    so.sub_organizador_id,
+                    so.nome_suborganizador,
+                    so.numero_suborganizador,
+                    i.imagem_id,
+                    i.url_imagem,
+                    i.descricao
+                FROM 
+                    sub_organizador so
+                INNER JOIN 
+                    imagens i ON so.sub_organizador_id = i.sub_organizador_id
+                WHERE 
+                    so.nome_suborganizador ILIKE $1;
             `, [`%${param}%`]);
-            // fazer inner join
         } else {
             result = await pool.query(`
-                SELECT so.*, i.*
-                FROM sub_organizador so
-                INNER JOIN imagens i ON so.sub_organizador_id = i.sub_organizador_id
-                WHERE so.sub_organizador_id = $1;
+                SELECT 
+                    so.sub_organizador_id,
+                    so.nome_suborganizador,
+                    so.numero_suborganizador,
+                    i.imagem_id,
+                    i.url_imagem,
+                    i.descricao
+                FROM 
+                    sub_organizador so
+                INNER JOIN 
+                    imagens i ON so.sub_organizador_id = i.sub_organizador_id
+                WHERE 
+                    so.sub_organizador_id = $1;
             `, [param]);
         }
-
+    
         res.json({
             total: result.rowCount,
             sub_organizador: result.rows
