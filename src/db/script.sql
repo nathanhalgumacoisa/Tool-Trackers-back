@@ -147,17 +147,17 @@ INSERT INTO organizador (nome_organizador, numero_organizador) VALUES
 
 INSERT INTO sub_organizador (organizador_id, nome_suborganizador, numero_suborganizador) VALUES
 (1, 'Sub A1', 201),
-(1, 'Sub A2', 202),
-(2, 'Sub B1', 203),
-(2, 'Sub B2', 204),
-(3, 'Sub C1', 205);
+(2, 'Sub A2', 202),
+(3, 'Sub B1', 203),
+(4, 'Sub B2', 204),
+(5, 'Sub C1', 205);
 
 INSERT INTO imagens (url_imagem, descricao, sub_organizador_id) VALUES
 ('http://exemplo.com/imagem1.jpg', 'Imagem 1', 1),
 ('http://exemplo.com/imagem2.jpg', 'Imagem 2', 2),
 ('http://exemplo.com/imagem3.jpg', 'Imagem 3', 3),
-('http://exemplo.com/imagem4.jpg', 'Imagem 4', 1),
-('http://exemplo.com/imagem5.jpg', 'Imagem 5', 2);
+('http://exemplo.com/imagem4.jpg', 'Imagem 4', 4),
+('http://exemplo.com/imagem5.jpg', 'Imagem 5', 5);
 
 INSERT INTO localizacoes (ambiente, organizador_id) VALUES
 ('Sala A', 1),
@@ -167,11 +167,11 @@ INSERT INTO localizacoes (ambiente, organizador_id) VALUES
 ('Sala E', 5);
 
 INSERT INTO ferramentas (nome, imagem_url, conjunto, numero, patrimonio, modelo, descricao, disponivel, localizacao_id) VALUES
-('Ferramenta 1', 'http://exemplo.com/ferr1.jpg', 'Conjunto A', '001', 'PATR001', 'Modelo 1', 'Descrição 1', TRUE, 6),
-('Ferramenta 2', 'http://exemplo.com/ferr2.jpg', 'Conjunto B', '002', 'PATR002', 'Modelo 2', 'Descrição 2', TRUE, 7),
-('Ferramenta 3', 'http://exemplo.com/ferr3.jpg', 'Conjunto C', '003', 'PATR003', 'Modelo 3', 'Descrição 3', FALSE, 8),
-('Ferramenta 4', 'http://exemplo.com/ferr4.jpg', 'Conjunto D', '004', 'PATR004', 'Modelo 4', 'Descrição 4', TRUE, 9),
-('Ferramenta 5', 'http://exemplo.com/ferr5.jpg', 'Conjunto E', '005', 'PATR005', 'Modelo 5', 'Descrição 5', TRUE, 10);
+('Ferramenta 1', 'http://exemplo.com/ferr1.jpg', 'Conjunto A', '001', 'PATR001', 'Modelo 1', 'Descrição 1', TRUE, 1),
+('Ferramenta 2', 'http://exemplo.com/ferr2.jpg', 'Conjunto B', '002', 'PATR002', 'Modelo 2', 'Descrição 2', TRUE, 2),
+('Ferramenta 3', 'http://exemplo.com/ferr3.jpg', 'Conjunto C', '003', 'PATR003', 'Modelo 3', 'Descrição 3', FALSE, 3),
+('Ferramenta 4', 'http://exemplo.com/ferr4.jpg', 'Conjunto D', '004', 'PATR004', 'Modelo 4', 'Descrição 4', TRUE, 4),
+('Ferramenta 5', 'http://exemplo.com/ferr5.jpg', 'Conjunto E', '005', 'PATR005', 'Modelo 5', 'Descrição 5', TRUE, 5);
 
 INSERT INTO emprestimos (ferramenta_id, user_id, data_emprestimo, data_retorno, local_origem_id, local_destino_id) VALUES
 (1, 1, NOW(), NOW() + INTERVAL '7 days', 1, 2),
@@ -181,11 +181,11 @@ INSERT INTO emprestimos (ferramenta_id, user_id, data_emprestimo, data_retorno, 
 (5, 5, NOW(), NOW() + INTERVAL '14 days', 5, 4);
 
 INSERT INTO conferencias (user_id, localizacao_id, data_conferencia) VALUES
-(1, 6, NOW()),
-(2, 7, NOW()),
-(3, 8, NOW()),
-(4, 9, NOW()),
-(5, 10, NOW());
+(1, 1, NOW()),
+(2, 2, NOW()),
+(3, 3, NOW()),
+(4, 4, NOW()),
+(5, 5, NOW());
 
 INSERT INTO observacoes (conferencia_id, descricao, data_observacao) VALUES
 (1, 'Observação 1', NOW()),
