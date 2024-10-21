@@ -12,10 +12,12 @@ export async function getAllFerramentas (req, res) {
         conferido,
         emprestado,
         manutencao,
-        localizacao_id
-    } = req.query;
+        localizacao_id,
+        data
+    } = req.body;
 
     console.log("hahaha")
+    console.log(data)
 
     console.log(nome,
         conjunto,
@@ -144,11 +146,15 @@ export async function getFerramentasByParam (req, res) {
 
 
 export async function createFerramentas (req, res)  {
+    console.log("TEEEEESTE");
+    
     try {
-        const { nome, imagem_url, conjunto, numero, patrimonio, modelo, descricao, disponivel, conferido, emprestado, manutencao, localizacao_id} = req.body;
+        const { nome, imagem_url, conjunto, numero, patrimonio, modelo, descricao, disponivel, conferido, emprestado, manutencao, localizacaoId} = req.body;
+        console.log(nome, imagem_url, conjunto, numero, patrimonio, modelo, descricao, disponivel, conferido, emprestado, manutencao, localizacaoId);
+        
         const result = await pool.query(
             'INSERT INTO ferramentas (nome, imagem_url, conjunto, numero, patrimonio, modelo, descricao, disponivel, conferido, emprestado, manutencao, localizacao_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *;',
-            [nome, imagem_url, conjunto, numero, patrimonio, modelo, descricao, disponivel, conferido, emprestado, manutencao, localizacao_id]
+            [nome, imagem_url, conjunto, numero, patrimonio, modelo, descricao, "true", "false", "false", "false", localizacaoId]
         );
         res.json(result.rows[0]);
     } catch (error) {
