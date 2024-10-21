@@ -39,8 +39,10 @@ export async function getFerramentasByParam (req, res) {
 
 
 export async function createFerramentas (req, res)  {
+    
     try {
         const { nome, imagem_url, conjunto, numero, patrimonio, modelo, descricao, disponivel, conferido, emprestado, manutencao, localizacao_id} = req.body;
+        console.log("AQUIIIIIIII", nome);
         const result = await pool.query(
             'INSERT INTO ferramentas (nome, imagem_url, conjunto, numero, patrimonio, modelo, descricao, disponivel, conferido, emprestado, manutencao, localizacao_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *;',
             [nome, imagem_url, conjunto, numero, patrimonio, modelo, descricao, disponivel, conferido, emprestado, manutencao, localizacao_id]
