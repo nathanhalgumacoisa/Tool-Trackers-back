@@ -209,3 +209,4 @@ INSERT INTO login (nome, numero_nif_qrcode, senha) VALUES
 ('Leanne Graham', '1234567', 'senhaSegura1'),
 ('Bret', '9876543', 'senhaSegura2'),
 ('Edward', '12345678901234567890', 'senhaSegura3');
+
