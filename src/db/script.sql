@@ -125,6 +125,7 @@ CREATE TABLE log_ferramentas(
 );
 
 CREATE TABLE login(
+    login_id SERIAL PRIMARY KEY,
     nome VARCHAR(20) NOT NULL,
     numero_nif_qrcode VARCHAR(50) NOT NULL,
     senha VARCHAR(40) NOT NULL
@@ -204,7 +205,7 @@ INSERT INTO log_ferramentas (nome, imagem_url, conjunto, numero, patrimonio, mod
 
 
 
--- INSERT INTO login (nome, numero_nif_qrcode, senha) VALUES 
--- ('Leanne Graham', '1234567', 'senhaSegura1'),
--- ('Bret', '9876543', 'senhaSegura2'),
--- ('Edward', '12345678901234567890', 'senhaSegura3');
+INSERT INTO login (nome, numero_nif_qrcode, senha) VALUES 
+('Leanne Graham', '1234567', 'senhaSegura1'),
+('Bret', '9876543', 'senhaSegura2'),
+('Edward', '12345678901234567890', 'senhaSegura3');
