@@ -167,32 +167,32 @@ INSERT INTO localizacoes (ambiente, organizador_id) VALUES
 ('Sala E', 5);
 
 INSERT INTO ferramentas (nome, imagem_url, conjunto, numero, patrimonio, modelo, descricao, disponivel, localizacao_id) VALUES
-('Ferramenta 1', 'http://exemplo.com/ferr1.jpg', 'Conjunto A', '001', 'PATR001', 'Modelo 1', 'Descrição 1', TRUE, 6),
-('Ferramenta 2', 'http://exemplo.com/ferr2.jpg', 'Conjunto B', '002', 'PATR002', 'Modelo 2', 'Descrição 2', TRUE, 7),
-('Ferramenta 3', 'http://exemplo.com/ferr3.jpg', 'Conjunto C', '003', 'PATR003', 'Modelo 3', 'Descrição 3', FALSE, 8),
-('Ferramenta 4', 'http://exemplo.com/ferr4.jpg', 'Conjunto D', '004', 'PATR004', 'Modelo 4', 'Descrição 4', TRUE, 9),
-('Ferramenta 5', 'http://exemplo.com/ferr5.jpg', 'Conjunto E', '005', 'PATR005', 'Modelo 5', 'Descrição 5', TRUE, 10);
+('Ferramenta 1', 'http://exemplo.com/ferr1.jpg', 'Conjunto A', '001', 'PATR001', 'Modelo 1', 'Descrição 1', TRUE, 1),
+('Ferramenta 2', 'http://exemplo.com/ferr2.jpg', 'Conjunto B', '002', 'PATR002', 'Modelo 2', 'Descrição 2', TRUE, 2),
+('Ferramenta 3', 'http://exemplo.com/ferr3.jpg', 'Conjunto C', '003', 'PATR003', 'Modelo 3', 'Descrição 3', FALSE, 3),
+('Ferramenta 4', 'http://exemplo.com/ferr4.jpg', 'Conjunto D', '004', 'PATR004', 'Modelo 4', 'Descrição 4', TRUE, 4),
+('Ferramenta 5', 'http://exemplo.com/ferr5.jpg', 'Conjunto E', '005', 'PATR005', 'Modelo 5', 'Descrição 5', TRUE, 5);
 
 INSERT INTO emprestimos (ferramenta_id, user_id, data_emprestimo, data_retorno, local_origem_id, local_destino_id) VALUES
-(1, 1, NOW(), NOW() + INTERVAL '7 days', 1, 2),
-(2, 2, NOW(), NOW() + INTERVAL '5 days', 2, 3),
-(3, 3, NOW(), NOW() + INTERVAL '10 days', 3, 1),
-(4, 4, NOW(), NOW() + INTERVAL '3 days', 4, 5),
-(5, 5, NOW(), NOW() + INTERVAL '14 days', 5, 4);
+(6, 1, NOW(), NOW() + INTERVAL '7 days', 1, 2),
+(7, 2, NOW(), NOW() + INTERVAL '5 days', 2, 3),
+(8, 3, NOW(), NOW() + INTERVAL '10 days', 3, 1),
+(9, 4, NOW(), NOW() + INTERVAL '3 days', 4, 5),
+(10, 5, NOW(), NOW() + INTERVAL '14 days', 5, 4);
 
 INSERT INTO conferencias (user_id, localizacao_id, data_conferencia) VALUES
-(1, 6, NOW()),
-(2, 7, NOW()),
-(3, 8, NOW()),
-(4, 9, NOW()),
-(5, 10, NOW());
+(1, 1, NOW()),
+(2, 2, NOW()),
+(3, 3, NOW()),
+(4, 4, NOW()),
+(5, 5, NOW());
 
 INSERT INTO observacoes (conferencia_id, descricao, data_observacao) VALUES
-(1, 'Observação 1', NOW()),
-(2, 'Observação 2', NOW()),
-(3, 'Observação 3', NOW()),
-(4, 'Observação 4', NOW()),
-(5, 'Observação 5', NOW());
+(6, 'Observação 1', NOW()),
+(7, 'Observação 2', NOW()),
+(8, 'Observação 3', NOW()),
+(9, 'Observação 4', NOW()),
+(10, 'Observação 5', NOW());
 
 INSERT INTO log_ferramentas (nome, imagem_url, conjunto, numero, patrimonio, modelo, descricao, disponivel, localizacao_id, data_atualizacao) VALUES
 ('Log Ferramenta 1', 'http://exemplo.com/log1.jpg', 'Conjunto A', '001', 'PATR001', 'Modelo 1', 'Descrição 1', TRUE, 1, NOW()),
