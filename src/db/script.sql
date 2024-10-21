@@ -124,6 +124,13 @@ CREATE TABLE log_ferramentas(
  FOREIGN KEY (localizacao_id) REFERENCES localizacoes(localizacao_id)
 );
 
+CREATE TABLE login(
+    nome VARCHAR(20) NOT NULL,
+    numero_nif_qrcode VARCHAR(50) NOT NULL,
+    senha VARCHAR(40) NOT NULL
+);
+
+
 INSERT INTO usuarios (nome, numero_nif, numero_qrcode, tipo_usuario) VALUES
 ('Alice', '1234567', '12345678901234567890', 'aluno'),
 ('Bob', '2345678', '23456789012345678901', 'administracao'),
@@ -193,3 +200,11 @@ INSERT INTO log_ferramentas (nome, imagem_url, conjunto, numero, patrimonio, mod
 ('Log Ferramenta 3', 'http://exemplo.com/log3.jpg', 'Conjunto C', '003', 'PATR003', 'Modelo 3', 'Descrição 3', FALSE, 3, NOW()),
 ('Log Ferramenta 4', 'http://exemplo.com/log4.jpg', 'Conjunto D', '004', 'PATR004', 'Modelo 4', 'Descrição 4', TRUE, 4, NOW()),
 ('Log Ferramenta 5', 'http://exemplo.com/log5.jpg', 'Conjunto E', '005', 'PATR005', 'Modelo 5', 'Descrição 5', TRUE, 5, NOW());
+
+
+
+
+-- INSERT INTO login (nome, numero_nif_qrcode, senha) VALUES 
+-- ('Leanne Graham', '1234567', 'senhaSegura1'),
+-- ('Bret', '9876543', 'senhaSegura2'),
+-- ('Edward', '12345678901234567890', 'senhaSegura3');
