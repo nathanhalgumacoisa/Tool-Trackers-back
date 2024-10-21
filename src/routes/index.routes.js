@@ -10,6 +10,7 @@ import emprestimosRouter from "./emprestimosRoutes.js";
 import conferenciasRouter from "./conferenciasRoutes.js";
 import observacoesRouter from "./observacoesRoutes.js";
 import log_ferramentasRouter from "./log_ferramentasRoutes.js";
+import loginRouter from "./loginRoutes.js";
 
 const rotas = Router();
 
@@ -28,6 +29,7 @@ rotas.use("/emprestimos", emprestimosRouter);
 rotas.use("/conferencias", conferenciasRouter);
 rotas.use("/observacoes", observacoesRouter);
 rotas.use("/log_ferramentas", log_ferramentasRouter);
+rotas.use("/login", loginRouter);
 
 
 export default rotas;

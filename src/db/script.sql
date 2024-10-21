@@ -125,6 +125,7 @@ CREATE TABLE log_ferramentas(
 );
 
 CREATE TABLE login(
+    login_id SERIAL PRIMARY KEY,
     nome VARCHAR(20) NOT NULL,
     numero_nif_qrcode VARCHAR(50) NOT NULL,
     senha VARCHAR(40) NOT NULL
@@ -147,17 +148,17 @@ INSERT INTO organizador (nome_organizador, numero_organizador) VALUES
 
 INSERT INTO sub_organizador (organizador_id, nome_suborganizador, numero_suborganizador) VALUES
 (1, 'Sub A1', 201),
-(1, 'Sub A2', 202),
-(2, 'Sub B1', 203),
-(2, 'Sub B2', 204),
-(3, 'Sub C1', 205);
+(2, 'Sub A2', 202),
+(3, 'Sub B1', 203),
+(4, 'Sub B2', 204),
+(5, 'Sub C1', 205);
 
 INSERT INTO imagens (url_imagem, descricao, sub_organizador_id) VALUES
 ('http://exemplo.com/imagem1.jpg', 'Imagem 1', 1),
 ('http://exemplo.com/imagem2.jpg', 'Imagem 2', 2),
 ('http://exemplo.com/imagem3.jpg', 'Imagem 3', 3),
-('http://exemplo.com/imagem4.jpg', 'Imagem 4', 1),
-('http://exemplo.com/imagem5.jpg', 'Imagem 5', 2);
+('http://exemplo.com/imagem4.jpg', 'Imagem 4', 4),
+('http://exemplo.com/imagem5.jpg', 'Imagem 5', 5);
 
 INSERT INTO localizacoes (ambiente, organizador_id) VALUES
 ('Sala A', 1),
@@ -204,7 +205,8 @@ INSERT INTO log_ferramentas (nome, imagem_url, conjunto, numero, patrimonio, mod
 
 
 
--- INSERT INTO login (nome, numero_nif_qrcode, senha) VALUES 
--- ('Leanne Graham', '1234567', 'senhaSegura1'),
--- ('Bret', '9876543', 'senhaSegura2'),
--- ('Edward', '12345678901234567890', 'senhaSegura3');
+INSERT INTO login (nome, numero_nif_qrcode, senha) VALUES 
+('Leanne Graham', '1234567', 'senhaSegura1'),
+('Bret', '9876543', 'senhaSegura2'),
+('Edward', '12345678901234567890', 'senhaSegura3');
+
