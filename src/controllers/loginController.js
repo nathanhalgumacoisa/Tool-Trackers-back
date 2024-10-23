@@ -20,9 +20,9 @@ export async function getLoginById (req, res) {
     try {
         let result;
         if (isNaN(param)) {
-            result = await pool.query('SELECT * FROM login WHERE usuario_id LIKE $1;', [`%${id}%`]);
+            result = await pool.query('SELECT * FROM usuarios WHERE usuario_id LIKE $1;', [`%${id}%`]);
         } else {
-            result = await pool.query('SELECT * FROM login WHERE usuario_id = $1;', [id]);
+            result = await pool.query('SELECT * FROM usuarios WHERE usuario_id = $1;', [id]);
         }
        
         res.json({
