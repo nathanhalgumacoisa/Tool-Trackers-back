@@ -39,7 +39,7 @@ CREATE TABLE sub_organizador(
  organizador_id INTEGER,
  nome_suborganizador VARCHAR(20),
  numero_suborganizador INTEGER,
- imagem_url VARCHAR(255),
+ foto_url VARCHAR(255),
  FOREIGN KEY (organizador_id) REFERENCES organizador(organizador_id)
 );
 
@@ -143,19 +143,14 @@ INSERT INTO organizador (nome_organizador, numero_organizador) VALUES
 ('Organizador D', 104),
 ('Organizador E', 105);
 
-INSERT INTO sub_organizador (organizador_id, nome_suborganizador, numero_suborganizador) VALUES
-(1, 'Sub A1', 201),
-(2, 'Sub A2', 202),
-(3, 'Sub B1', 203),
-(4, 'Sub B2', 204),
-(5, 'Sub C1', 205);
+INSERT INTO sub_organizador (organizador_id, nome_suborganizador, numero_suborganizador, img_url) VALUES
+(1, 'Sub A1', 201,  'http://exemplo.com/ferr1.jpg'),
+(2, 'Sub A2', 202, 'http://exemplo.com/ferr1.jpg'),
+(3, 'Sub B1', 203, 'http://exemplo.com/ferr1.jpg'),
+(4, 'Sub B2', 204, 'http://exemplo.com/ferr1.jpg'),
+(5, 'Sub C1', 205, 'http://exemplo.com/ferr1.jpg');
 
-INSERT INTO imagens (url_imagem, descricao, sub_organizador_id) VALUES
-('http://exemplo.com/imagem1.jpg', 'Imagem 1', 1),
-('http://exemplo.com/imagem2.jpg', 'Imagem 2', 2),
-('http://exemplo.com/imagem3.jpg', 'Imagem 3', 3),
-('http://exemplo.com/imagem4.jpg', 'Imagem 4', 4),
-('http://exemplo.com/imagem5.jpg', 'Imagem 5', 5);
+
 
 INSERT INTO localizacoes (ambiente, organizador_id) VALUES
 ('Sala A', 1),
