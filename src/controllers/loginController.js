@@ -1,7 +1,7 @@
 import pool from "../config/dbConfig.js"
 
 
-export async function getAllLogi (req, res) {
+export async function getAllLogin (req, res) {
     try {
         const result = await pool.query('SELECT * FROM usuarios;');
         res.json({
