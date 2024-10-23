@@ -21,9 +21,11 @@ CREATE TYPE tipo_usuario_enum AS ENUM ('aluno', 'administracao', 'instrutor', 'm
 CREATE TABLE usuarios(
  user_id SERIAL PRIMARY KEY,
  nome VARCHAR(50) NOT NULL,
+ email VARCHAR(150) NOT NULL,
  numero_nif CHAR(7),
  numero_qrcode CHAR(20),
- tipo_usuario tipo_usuario_enum
+ tipo_usuario tipo_usuario_enum,
+ ativo BOOLEAN BOOLEAN DEFAULT TRUE
 );
 
 CREATE TABLE organizador(
