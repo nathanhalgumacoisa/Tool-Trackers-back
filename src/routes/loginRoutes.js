@@ -4,7 +4,7 @@ import {Router} from "express";
 
 
 import {
-    verificate,
+    getLoginByMatricula,
     getAllLogin,
    
 } from "../controllers/loginController.js"
@@ -16,7 +16,7 @@ const loginRotas = Router();
 
 
 loginRotas.get('/', getAllLogin);
-loginRotas.post('/', verificate)
+loginRotas.post('/matricula', getLoginByMatricula)
 
 
 

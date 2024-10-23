@@ -1,12 +1,13 @@
 import pool from "../config/dbConfig.js"
 
 
+
 export async function getAllLogin (req, res) {
     try {
-        const result = await pool.query('SELECT * FROM usuarios;');
+        const matricula = await pool.query('SELECT * FROM usuarios;');
         res.json({
-            total: result.rowCount,
-            login: result.rows
+            total: matricula.rowCount,
+            usuarios: matricula.rows
         });
     } catch (error) {
         console.error('Erro ao logar', error);
@@ -14,48 +15,51 @@ export async function getAllLogin (req, res) {
     }
 };
 
-export async function getLoginById (req, res) {
-    const { id } = req.body;
+export async function getLoginByMatricula (req, res) {
+    const { email } = req.body;
 
     try {
-        let result;
-        if (isNaN(param)) {
-            result = await pool.query('SELECT * FROM usuarios WHERE usuario_id LIKE $1;', [`%${id}%`]);
+        let users;
+        if (isNaN(email)) {
+            users = await pool.query('SELECT * FROM usuarios WHERE email LIKE $1;', [`%${email}%`]);
         } else {
-            result = await pool.query('SELECT * FROM usuarios WHERE usuario_id = $1;', [id]);
+            users = await pool.query('SELECT * FROM usuarios WHERE email = $1;', [email]);
         }
        
         res.json({
-            total: result.rowCount,
-            login: result.rows
+            total: users.rowCount,
+            usuarios: users.rows
         });
     } catch (error) {
         console.error('Error executing query', error);
         res.json({ error: error.message });
-    }
+    } 
 
    
 }
 
 
 
-export async function verificate (req, res) {
+// export async function verificate (req, res) {
 
-    const { email, numero_nif_qrcode } = req.body;
+//     const { nome, numero_nif, numero_qrcode } = req.body;
 
-    const user = await user.email.findOne({ email }).select('+numero_nif_qrcode');
+//     const user = await user.nome.findOne({ nome }).select('+numero_qrcode');
 
-    if (!user, user.email) {
-        return res.status(400).send({ error: 'Usuario não existe' });
-    }
-    if(!await bcrypt.compare(numero_nif_qrcode, user.numero_nif_qrcode)){
-        return res.status(400).send({ error: 'senha invalida' });
-    }
+//     if (!user, user.nome) {
+//         return res.status(400).send({ error: 'Usuario não existe' });
+//     }
+//     if(!await bcrypt.compare( user.numero_nif)){
+//         return res.status(400).send({ error: 'nif invalida' });
+//     }
+//     if(!await bcrypt.compare( user.numero_qrcode)){
+//         return res.status(400).send({ error: 'qrcode invalida' });
+//     }
 
-    res.send({ user });
+//     res.send({ user });
 
 
-}
+// }
 
 
 
