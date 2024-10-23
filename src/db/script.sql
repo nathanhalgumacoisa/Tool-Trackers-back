@@ -1,19 +1,18 @@
 
-DROP DATABASE IF EXISTS tooltrackers;
-DROP TABLE IF EXISTS usuarios;
-DROP TABLE IF EXISTS organizador;
-DROP TABLE IF EXISTS sub_organizador;
-DROP TABLE IF EXISTS imagens;
-DROP TABLE IF EXISTS localizacoes;
-DROP TABLE IF EXISTS ferramentas;
-DROP TABLE IF EXISTS emprestimos;
-DROP TABLE IF EXISTS conferencias;
-DROP TABLE IF EXISTS observacoes;
-DROP TABLE IF EXISTS log_ferramentas;
-DROP TYPE IF EXISTS tipo_usuario_enum;
-
-
 CREATE DATABASE tooltrackers;
+
+DROP TABLE IF EXISTS emprestimos CASCADE;
+DROP TABLE IF EXISTS conferencias CASCADE;
+DROP TABLE IF EXISTS observacoes CASCADE;
+DROP TABLE IF EXISTS log_ferramentas CASCADE;
+DROP TABLE IF EXISTS ferramentas CASCADE;
+DROP TABLE IF EXISTS imagens CASCADE;
+DROP TABLE IF EXISTS sub_organizador CASCADE;
+DROP TABLE IF EXISTS organizador CASCADE;
+DROP TABLE IF EXISTS localizacoes CASCADE;
+DROP TABLE IF EXISTS usuarios CASCADE;
+DROP TABLE IF EXISTS login CASCADE;
+DROP TYPE IF EXISTS tipo_usuario_enum CASCADE;
 
 \c tooltrackers
 
@@ -38,21 +37,17 @@ CREATE TABLE sub_organizador(
  organizador_id INTEGER,
  nome_suborganizador VARCHAR(20),
  numero_suborganizador INTEGER,
+ imagem_url VARCHAR(255),
  FOREIGN KEY (organizador_id) REFERENCES organizador(organizador_id)
 );
 
-CREATE TABLE imagens(
- imagem_id SERIAL PRIMARY KEY,
- url_imagem VARCHAR(50) NOT NULL,
- descricao VARCHAR(50),
- sub_organizador_id INTEGER,
- FOREIGN KEY (sub_organizador_id) REFERENCES sub_organizador(sub_organizador_id)
-);
+
 
 CREATE TABLE localizacoes(
  localizacao_id SERIAL PRIMARY KEY,
  ambiente VARCHAR(20),
  organizador_id INTEGER,
+ slug VARCHAR(20),
  FOREIGN KEY (organizador_id) REFERENCES organizador(organizador_id)
 );
 
@@ -73,27 +68,27 @@ CREATE TABLE ferramentas(
  FOREIGN KEY (localizacao_id) REFERENCES localizacoes(localizacao_id)
 );
 
-CREATE TABLE emprestimos(
- emprestimo_id SERIAL PRIMARY KEY,
- ferramenta_id INTEGER,
- user_id INTEGER,
- data_emprestimo TIMESTAMP,
- data_retorno DATE,
- local_origem_id INTEGER,
- local_destino_id INTEGER,
- FOREIGN KEY (ferramenta_id) REFERENCES ferramentas(ferramenta_id),
- FOREIGN KEY (user_id) REFERENCES usuarios(user_id),
- FOREIGN KEY (local_origem_id) REFERENCES localizacoes(localizacao_id),
- FOREIGN KEY (local_destino_id) REFERENCES localizacoes(localizacao_id)
+CREATE TABLE emprestimos (
+    emprestimo_id SERIAL PRIMARY KEY,
+    ferramenta_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
+    data_emprestimo TIMESTAMP,
+    data_retorno DATE,
+    local_origem_id INTEGER,
+    local_destino_id INTEGER,
+    FOREIGN KEY (ferramenta_id) REFERENCES ferramentas(ferramenta_id) ON DELETE CASCADE,  -- Excluir empréstimo se a ferramenta for excluída
+    FOREIGN KEY (user_id) REFERENCES usuarios(user_id) ON DELETE CASCADE,  -- Excluir empréstimo se o usuário for excluído
+    FOREIGN KEY (local_origem_id) REFERENCES localizacoes(localizacao_id),
+    FOREIGN KEY (local_destino_id) REFERENCES localizacoes(localizacao_id)
 );
 
-CREATE TABLE conferencias(
- conferencia_id SERIAL PRIMARY KEY,
- user_id INTEGER,
- localizacao_id INTEGER,
- data_conferencia TIMESTAMP,
- FOREIGN KEY (user_id) REFERENCES usuarios(user_id),
- FOREIGN KEY (localizacao_id) REFERENCES localizacoes(localizacao_id)
+CREATE TABLE conferencias (
+  conferencia_id SERIAL PRIMARY KEY,
+  user_id INTEGER,
+  localizacao_id INTEGER,
+  data_conferencia TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES usuarios(user_id) ON DELETE CASCADE,
+  FOREIGN KEY (localizacao_id) REFERENCES localizacoes(localizacao_id) ON DELETE CASCADE
 );
 
 CREATE TABLE observacoes(
@@ -101,7 +96,7 @@ CREATE TABLE observacoes(
  conferencia_id INTEGER,
  descricao VARCHAR(100),
  data_observacao TIMESTAMP,
- FOREIGN KEY (conferencia_id) REFERENCES conferencias(conferencia_id)
+ FOREIGN KEY (conferencia_id) REFERENCES conferencias(conferencia_id) ON DELETE CASCADE
 );
 
 CREATE TABLE log_ferramentas(
@@ -175,11 +170,12 @@ INSERT INTO ferramentas (nome, imagem_url, conjunto, numero, patrimonio, modelo,
 ('Ferramenta 5', 'http://exemplo.com/ferr5.jpg', 'Conjunto E', '005', 'PATR005', 'Modelo 5', 'Descrição 5', TRUE, 5);
 
 INSERT INTO emprestimos (ferramenta_id, user_id, data_emprestimo, data_retorno, local_origem_id, local_destino_id) VALUES
-(6, 1, NOW(), NOW() + INTERVAL '7 days', 1, 2),
-(7, 2, NOW(), NOW() + INTERVAL '5 days', 2, 3),
-(8, 3, NOW(), NOW() + INTERVAL '10 days', 3, 1),
-(9, 4, NOW(), NOW() + INTERVAL '3 days', 4, 5),
-(10, 5, NOW(), NOW() + INTERVAL '14 days', 5, 4);
+(1, 1, NOW(), NOW() + INTERVAL '7 days', 1, 2),
+(2, 2, NOW(), NOW() + INTERVAL '5 days', 2, 3),
+(3, 3, NOW(), NOW() + INTERVAL '10 days', 3, 1),
+(4, 4, NOW(), NOW() + INTERVAL '3 days', 4, 5),
+(5, 5, NOW(), NOW() + INTERVAL '14 days', 5, 4);
+
 
 INSERT INTO conferencias (user_id, localizacao_id, data_conferencia) VALUES
 (1, 1, NOW()),
@@ -189,11 +185,11 @@ INSERT INTO conferencias (user_id, localizacao_id, data_conferencia) VALUES
 (5, 5, NOW());
 
 INSERT INTO observacoes (conferencia_id, descricao, data_observacao) VALUES
-(6, 'Observação 1', NOW()),
-(7, 'Observação 2', NOW()),
-(8, 'Observação 3', NOW()),
-(9, 'Observação 4', NOW()),
-(10, 'Observação 5', NOW());
+(1, 'Observação 1', NOW()),
+(2, 'Observação 2', NOW()),
+(3, 'Observação 3', NOW()),
+(4, 'Observação 4', NOW()),
+(5, 'Observação 5', NOW());
 
 INSERT INTO log_ferramentas (nome, imagem_url, conjunto, numero, patrimonio, modelo, descricao, disponivel, localizacao_id, data_atualizacao) VALUES
 ('Log Ferramenta 1', 'http://exemplo.com/log1.jpg', 'Conjunto A', '001', 'PATR001', 'Modelo 1', 'Descrição 1', TRUE, 1, NOW()),
@@ -201,9 +197,6 @@ INSERT INTO log_ferramentas (nome, imagem_url, conjunto, numero, patrimonio, mod
 ('Log Ferramenta 3', 'http://exemplo.com/log3.jpg', 'Conjunto C', '003', 'PATR003', 'Modelo 3', 'Descrição 3', FALSE, 3, NOW()),
 ('Log Ferramenta 4', 'http://exemplo.com/log4.jpg', 'Conjunto D', '004', 'PATR004', 'Modelo 4', 'Descrição 4', TRUE, 4, NOW()),
 ('Log Ferramenta 5', 'http://exemplo.com/log5.jpg', 'Conjunto E', '005', 'PATR005', 'Modelo 5', 'Descrição 5', TRUE, 5, NOW());
-
-
-
 
 INSERT INTO login (nome, numero_nif_qrcode, senha) VALUES 
 ('Leanne Graham', '1234567', 'senhaSegura1'),
