@@ -25,7 +25,7 @@ CREATE TABLE usuarios(
  numero_nif CHAR(7),
  numero_qrcode CHAR(20),
  tipo_usuario tipo_usuario_enum,
- ativo BOOLEAN BOOLEAN DEFAULT TRUE
+ ativo BOOLEAN DEFAULT TRUE
 );
 
 CREATE TABLE organizador(
@@ -129,12 +129,12 @@ CREATE TABLE login(
 );
 
 
-INSERT INTO usuarios (nome, numero_nif, numero_qrcode, tipo_usuario) VALUES
-('Alice', '1234567', '12345678901234567890', 'aluno'),
-('Bob', '2345678', '23456789012345678901', 'administracao'),
-('Charlie', '3456789', '34567890123456789012', 'instrutor'),
-('Diana', '4567890', '45678901234567890123', 'manutencao'),
-('Eve', '5678901', '56789012345678901234', 'aluno');
+INSERT INTO usuarios (nome, email, numero_nif, numero_qrcode, tipo_usuario) VALUES
+('Alice','alice@gmail.com', '1234567', '12345678901234567890', 'aluno'),
+('Bob','bob@gmail.com', '2345678', '23456789012345678901', 'administracao'),
+('Charlie','charlie@gmail.com', '3456789', '34567890123456789012', 'instrutor'),
+('Diana','diana@gmail.com', '4567890', '45678901234567890123', 'manutencao'),
+('Eve','eve@gmail.com', '5678901', '56789012345678901234', 'aluno');
 
 INSERT INTO organizador (nome_organizador, numero_organizador) VALUES
 ('Organizador A', 101),
@@ -143,7 +143,7 @@ INSERT INTO organizador (nome_organizador, numero_organizador) VALUES
 ('Organizador D', 104),
 ('Organizador E', 105);
 
-INSERT INTO sub_organizador (organizador_id, nome_suborganizador, numero_suborganizador, img_url) VALUES
+INSERT INTO sub_organizador (organizador_id, nome_suborganizador, numero_suborganizador, foto_url) VALUES
 (1, 'Sub A1', 201,  'http://exemplo.com/ferr1.jpg'),
 (2, 'Sub A2', 202, 'http://exemplo.com/ferr1.jpg'),
 (3, 'Sub B1', 203, 'http://exemplo.com/ferr1.jpg'),
