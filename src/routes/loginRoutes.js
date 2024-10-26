@@ -1,24 +1,14 @@
+
+
 import {Router} from "express";
 
-
-
-
 import {
-    getLoginByMatricula,
-    getAllLogin,
-   
+    getItems,
 } from "../controllers/loginController.js"
 
 
 const loginRotas = Router();
 
-
-
-
-loginRotas.get('/', getAllLogin);
-loginRotas.post('/matricula', getLoginByMatricula)
-
-
-
+loginRotas.get('/', getItems);
 
 export default loginRotas;
