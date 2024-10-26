@@ -37,9 +37,9 @@ export async function getUsuariosByParam (req, res) {
 
 export async function createUsuarios (req, res)  {
     try {
-        const { nome, numero_nif, numero_qrcode, tipo_usuario } = req.body;
+        const { nome, email, numero_nif, numero_qrcode, tipo_usuario } = req.body;
         const result = await pool.query(
-            'INSERT INTO usuarios (nome, numero_nif, numero_qrcode, tipo_usuario) VALUES ($1, $2, $3, $4) RETURNING *;',
+            'INSERT INTO usuarios (nome, email, numero_nif, numero_qrcode, tipo_usuario) VALUES ($1, $2, $3, $4, $5) RETURNING *;',
             [nome, numero_nif, numero_qrcode, tipo_usuario]
         );
         res.json(result.rows[0]);
@@ -52,11 +52,11 @@ export async function createUsuarios (req, res)  {
 
 export async function updateUsuarios (req, res) {
     const { user_id } = req.params;
-    const { nome, numero_nif, numero_qrcode, tipo_usuario } = req.body;
+    const { nome, email, numero_nif, numero_qrcode, tipo_usuario } = req.body;
     try {
         const result = await pool.query(
-            'UPDATE usuarios SET nome = $1, numero_nif = $2, numero_qrcode = $3, tipo_usuario = $4 WHERE user_id = $5 RETURNING *;',
-            [ nome, numero_nif, numero_qrcode, tipo_usuario, user_id]
+            'UPDATE usuarios SET nome = $1, SET email = $2, numero_nif = $3, numero_qrcode = $4, tipo_usuario = $5 WHERE user_id = $6 RETURNING *;',
+            [ nome, email, numero_nif, numero_qrcode, tipo_usuario, user_id]
         );
         res.json(result.rows[0]);
     } catch (error) {
