@@ -125,7 +125,8 @@ CREATE TABLE login(
     login_id SERIAL PRIMARY KEY,
     nome VARCHAR(20) NOT NULL,
     numero_nif_qrcode VARCHAR(50) NOT NULL,
-    senha VARCHAR(40) NOT NULL
+    senha VARCHAR(40) NOT NULL,
+    email VARCHAR(50) NOT NULL
 );
 
 
