@@ -40,7 +40,7 @@ export async function createUsuarios (req, res)  {
         const { nome, email, numero_nif, numero_qrcode, tipo_usuario } = req.body;
         const result = await pool.query(
             'INSERT INTO usuarios (nome, email, numero_nif, numero_qrcode, tipo_usuario) VALUES ($1, $2, $3, $4, $5) RETURNING *;',
-            [nome, numero_nif, numero_qrcode, tipo_usuario]
+            [nome, email, numero_nif, numero_qrcode, tipo_usuario]
         );
         res.json(result.rows[0]);
     } catch (error) {
