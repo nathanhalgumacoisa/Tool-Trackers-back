@@ -13,6 +13,7 @@ DROP TABLE IF EXISTS localizacoes CASCADE;
 DROP TABLE IF EXISTS usuarios CASCADE;
 DROP TABLE IF EXISTS login CASCADE;
 DROP TYPE IF EXISTS tipo_usuario_enum CASCADE;
+DROP TYPE IF EXISTS ambiente_enum CASCADE;
 
 \c tooltrackers
 
@@ -28,28 +29,66 @@ CREATE TABLE usuarios(
  ativo BOOLEAN DEFAULT TRUE
 );
 
+CREATE TYPE organizador_enum AS ENUM ('carrinhos', 'armarios', 'tornos', 'paineis');
+
 CREATE TABLE organizador(
  organizador_id SERIAL PRIMARY KEY,
- nome_organizador VARCHAR(30) NOT NULL,
+ nome_organizador organizador_enum,
  numero_organizador INTEGER
 );
+
+CREATE TYPE sub_organizador_enum AS ENUM ('gavetas', 'prateleiras', 'outros');
 
 CREATE TABLE sub_organizador(
  sub_organizador_id SERIAL PRIMARY KEY,
  organizador_id INTEGER,
- nome_suborganizador VARCHAR(20),
+ nome_suborganizador sub_organizador_enum,
  numero_suborganizador INTEGER,
  foto_url VARCHAR(255),
  FOREIGN KEY (organizador_id) REFERENCES organizador(organizador_id)
 );
 
 
+CREATE TYPE tipo_usuario_enum AS ENUM ('aluno', 'administracao', 'instrutor', 'manutencao');
+
+CREATE TABLE usuarios(
+ user_id SERIAL PRIMARY KEY,
+ nome VARCHAR(50) NOT NULL,
+ email VARCHAR(150) NOT NULL,
+ numero_nif CHAR(7),
+ numero_qrcode CHAR(20),
+ tipo_usuario tipo_usuario_enum,
+ ativo BOOLEAN DEFAULT TRUE
+);
+
+CREATE TYPE organizador_enum AS ENUM ('carrinhos', 'armarios', 'tornos', 'paineis');
+
+CREATE TABLE organizador(
+ organizador_id SERIAL PRIMARY KEY,
+ nome_organizador organizador_enum,
+ numero_organizador INTEGER
+);
+
+CREATE TYPE sub_organizador_enum AS ENUM ('gavetas', 'prateleiras', 'outros');
+
+CREATE TABLE sub_organizador(
+ sub_organizador_id SERIAL PRIMARY KEY,
+ organizador_id INTEGER,
+ nome_suborganizador sub_organizador_enum,
+ numero_suborganizador INTEGER,
+ foto_url VARCHAR(255),
+ FOREIGN KEY (organizador_id) REFERENCES organizador(organizador_id)
+);
+
+CREATE TYPE ambiente_enum AS ENUM ('oficina mecanica de usinagem', 'oficina eletro eletronica', 'especo maker', 'manutenao');
+
+CREATE TYPE slug_enum AS ENUM ('ofm', 'oee', 'em', 'manut');
 
 CREATE TABLE localizacoes(
  localizacao_id SERIAL PRIMARY KEY,
- ambiente VARCHAR(20),
+ ambiente ambiente_enum,
  organizador_id INTEGER,
- slug VARCHAR(20),
+ slug slug_enum,
  FOREIGN KEY (organizador_id) REFERENCES organizador(organizador_id)
 );
 
@@ -138,27 +177,27 @@ INSERT INTO usuarios (nome, email, numero_nif, numero_qrcode, tipo_usuario) VALU
 ('Eve','eve@gmail.com', '5678901', '56789012345678901234', 'aluno');
 
 INSERT INTO organizador (nome_organizador, numero_organizador) VALUES
-('Organizador A', 101),
-('Organizador B', 102),
-('Organizador C', 103),
-('Organizador D', 104),
-('Organizador E', 105);
+('carrinhos', 01),
+('armarios', 02),
+('tornos', 03),
+('paineis', 04),
+('carrinhos', 05);
 
 INSERT INTO sub_organizador (organizador_id, nome_suborganizador, numero_suborganizador, foto_url) VALUES
-(1, 'Sub A1', 201,  'http://exemplo.com/ferr1.jpg'),
-(2, 'Sub A2', 202, 'http://exemplo.com/ferr1.jpg'),
-(3, 'Sub B1', 203, 'http://exemplo.com/ferr1.jpg'),
-(4, 'Sub B2', 204, 'http://exemplo.com/ferr1.jpg'),
-(5, 'Sub C1', 205, 'http://exemplo.com/ferr1.jpg');
+(1, 'gavetas', 01,  'http://exemplo.com/ferr1.jpg'),
+(2, 'prateleiras', 02, 'http://exemplo.com/ferr1.jpg'),
+(3, 'outro', 00, 'http://exemplo.com/ferr1.jpg'),
+(4, 'prateleiras', 04, 'http://exemplo.com/ferr1.jpg'),
+(5, 'gavetas', 05, 'http://exemplo.com/ferr1.jpg');
 
 
 
-INSERT INTO localizacoes (ambiente, organizador_id) VALUES
-('Sala A', 1),
-('Sala B', 2),
-('Sala C', 3),
-('Sala D', 4),
-('Sala E', 5);
+INSERT INTO localizacoes (ambiente, organizador_id, slug) VALUES
+('oficina mecanica de usinagem', 1, 'ofm'),
+('oficina eletro eletronica', 2, 'oee'),
+('especo maker', 3, 'em'),
+('manutenao', 4, 'manut'),
+('manutenao', 5, 'manut');
 
 INSERT INTO ferramentas (nome, imagem_url, conjunto, numero, patrimonio, modelo, descricao, disponivel, localizacao_id) VALUES
 ('Ferramenta 1', 'http://exemplo.com/ferr1.jpg', 'Conjunto A', '001', 'PATR001', 'Modelo 1', 'Descrição 1', TRUE, 1),
@@ -196,8 +235,8 @@ INSERT INTO log_ferramentas (nome, imagem_url, conjunto, numero, patrimonio, mod
 ('Log Ferramenta 4', 'http://exemplo.com/log4.jpg', 'Conjunto D', '004', 'PATR004', 'Modelo 4', 'Descrição 4', TRUE, 4, NOW()),
 ('Log Ferramenta 5', 'http://exemplo.com/log5.jpg', 'Conjunto E', '005', 'PATR005', 'Modelo 5', 'Descrição 5', TRUE, 5, NOW());
 
-INSERT INTO login (nome, numero_nif_qrcode, senha) VALUES 
-('Leanne Graham', '1234567', 'senhaSegura1'),
-('Bret', '9876543', 'senhaSegura2'),
-('Edward', '12345678901234567890', 'senhaSegura3');
+INSERT INTO login (nome, numero_nif_qrcode, senha, email) VALUES 
+('Alice', '1234567', 'senhaSegura1', 'alice@gmail.com'),
+('Bob', '9876543', 'senhaSegura2','bob@gmail.com'),
+('Charlie', '12345678901234567890', 'senhaSegura3','charlie@gmail.com');
 
