@@ -6,7 +6,7 @@ const pool = new Pool({
   host: 'localhost',
   database: 'tooltrackers',
   password: 'ds564',
-  port: 5432,
+  port: 7777,
 });
 
 export default pool
