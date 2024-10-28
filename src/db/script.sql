@@ -186,7 +186,7 @@ INSERT INTO organizador (nome_organizador, numero_organizador) VALUES
 INSERT INTO sub_organizador (organizador_id, nome_suborganizador, numero_suborganizador, foto_url) VALUES
 (1, 'gavetas', 01,  'http://exemplo.com/ferr1.jpg'),
 (2, 'prateleiras', 02, 'http://exemplo.com/ferr1.jpg'),
-(3, 'outro', 00, 'http://exemplo.com/ferr1.jpg'),
+(3, 'outros', 03, 'http://exemplo.com/ferr1.jpg'),
 (4, 'prateleiras', 04, 'http://exemplo.com/ferr1.jpg'),
 (5, 'gavetas', 05, 'http://exemplo.com/ferr1.jpg');
 
