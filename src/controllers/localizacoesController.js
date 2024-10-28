@@ -1,7 +1,6 @@
-//const pool = require('../config/dbConfig')
-import pool from "../config/dbConfig.js"
+import pool from "../config/dbConfig.js";
 
-export async function getAllLocalizacoes(req, res) {    
+export async function getAllLocalizacoes(req, res) {
     try {
         const result = await pool.query('SELECT * FROM localizacoes;');
         res.json({
@@ -14,15 +13,62 @@ export async function getAllLocalizacoes(req, res) {
     }
 };
 
+// export async function getAllLocalizacoesWithDetails(req, res) {
+//     try {
+//         const result = await pool.query(`
+//                         SELECT 
+//                 l.localizacao_id,
+//                 l.ambiente,
+//                 l.organizador_id,
+//                 l.slug,
+//                 o.organizador_id,
+//                 o.nome_organizador,
+//                 o.numero_organizador,
+//                 so.sub_organizador_id,
+//                 so.nome_suborganizador,
+//                 so.numero_suborganizador,
+//                 so.foto_url
+//             FROM 
+//                 localizacoes l
+//             INNER JOIN 
+//                 organizador o ON l.organizador_id = o.organizador_id
+//             INNER JOIN 
+//                 sub_organizador so ON o.organizador_id = so.organizador_id;`)
+//         res.json({
+//             total: result.rowCount,
+//             localizacoes: result.rows
+//         });
+//     } catch (error) {
+//         console.error('Erro ao pegar localizacoes com detalhes', error);
+//         res.json({ error: error.message });
+//     }
+// };
 
 export async function getLocalizacoesByParam(req, res) {
     const { param } = req.params;
     console.log(param);
-    
+
     try {
         let result;
         if (isNaN(param)) {
-            result = await pool.query('SELECT * FROM localizacoes WHERE slug LIKE $1;', [`%${param}%`]);
+            result = await pool.query(`SELECT 
+//                 l.localizacao_id,
+//                 l.ambiente,
+//                 l.organizador_id,
+//                 l.slug,
+//                 o.organizador_id,
+//                 o.nome_organizador,
+//                 o.numero_organizador,
+//                 so.sub_organizador_id,
+//                 so.nome_suborganizador,
+//                 so.numero_suborganizador,
+//                 so.foto_url
+//             FROM 
+//                 localizacoes l
+//             INNER JOIN 
+//                 organizador o ON l.organizador_id = o.organizador_id
+//             INNER JOIN 
+//                 sub_organizador so ON o.organizador_id = so.organizador_id;`, [`%${param}%`]);
         } else {
             result = await pool.query('SELECT * FROM localizacoes WHERE slug = $1;', [param]);
         }
@@ -51,13 +97,12 @@ export async function createLocalizacoes(req, res) {
     }
 };
 
-
 export async function updateLocalizacoes(req, res) {
     const { localizacao_id } = req.params;
     const { ambiente, organizador_id } = req.body;
     try {
         const result = await pool.query(
-            'UPDATE localizacoes SET ambiente = $1, organizador_id = $2 WHERE localizacao_id = $3 RETURNING ;*',
+            'UPDATE localizacoes SET ambiente = $1, organizador_id = $2 WHERE localizacao_id = $3 RETURNING *;',
             [ambiente, organizador_id, localizacao_id]
         );
         res.json(result.rows[0]);
@@ -77,4 +122,3 @@ export async function deleteLocalizacoes(req, res) {
         res.json({ error: error.message });
     }
 };
-
