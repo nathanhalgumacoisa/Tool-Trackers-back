@@ -39,10 +39,10 @@ export async function getLocalizacoesByParam(req, res) {
 
 export async function createLocalizacoes(req, res) {
     try {
-        const { ambiente, organizador_id } = req.body;
+        const { ambiente, organizador_id, slug } = req.body;
         const result = await pool.query(
-            'INSERT INTO localizacoes (ambiente, organizador_id) VALUES ($1, $2) RETURNING *;',
-            [ambiente, organizador_id]
+            'INSERT INTO localizacoes (ambiente, organizador_id, slug) VALUES ($1, $2, $3) RETURNING *;',
+            [ambiente, organizador_id, slug]
         );
         res.json(result.rows[0]);
     } catch (error) {
