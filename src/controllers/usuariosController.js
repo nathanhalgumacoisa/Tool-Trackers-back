@@ -55,7 +55,7 @@ export async function updateUsuarios (req, res) {
     const { nome, email, numero_nif, numero_qrcode, tipo_usuario } = req.body;
     try {
         const result = await pool.query(
-            'UPDATE usuarios SET nome = $1, SET email = $2, numero_nif = $3, numero_qrcode = $4, tipo_usuario = $5 WHERE user_id = $6 RETURNING *;',
+            'UPDATE usuarios SET nome = $1, email = $2, numero_nif = $3, numero_qrcode = $4, tipo_usuario = $5 WHERE user_id = $6 RETURNING *;',
             [ nome, email, numero_nif, numero_qrcode, tipo_usuario, user_id]
         );
         res.json(result.rows[0]);
