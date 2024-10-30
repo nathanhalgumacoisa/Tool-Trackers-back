@@ -13,36 +13,36 @@ export async function getAllLocalizacoes(req, res) {
     }
 };
 
-// export async function getAllLocalizacoesWithDetails(req, res) {
-//     try {
-//         const result = await pool.query(`
-//                         SELECT 
-//                 l.localizacao_id,
-//                 l.ambiente,
-//                 l.organizador_id,
-//                 l.slug,
-//                 o.organizador_id,
-//                 o.nome_organizador,
-//                 o.numero_organizador,
-//                 so.sub_organizador_id,
-//                 so.nome_suborganizador,
-//                 so.numero_suborganizador,
-//                 so.foto_url
-//             FROM 
-//                 localizacoes l
-//             INNER JOIN 
-//                 organizador o ON l.organizador_id = o.organizador_id
-//             INNER JOIN 
-//                 sub_organizador so ON o.organizador_id = so.organizador_id;`)
-//         res.json({
-//             total: result.rowCount,
-//             localizacoes: result.rows
-//         });
-//     } catch (error) {
-//         console.error('Erro ao pegar localizacoes com detalhes', error);
-//         res.json({ error: error.message });
-//     }
-// };
+export async function getAllLocalizacoesWithDetails(req, res) {
+    try {
+        const result = await pool.query(`
+                        SELECT 
+                l.localizacao_id,
+                l.ambiente,
+                l.organizador_id,
+                l.slug,
+                o.organizador_id,
+                o.nome_organizador,
+                o.numero_organizador,
+                so.sub_organizador_id,
+                so.nome_suborganizador,
+                so.numero_suborganizador,
+                so.foto_url
+            FROM 
+                localizacoes l
+            INNER JOIN 
+                organizador o ON l.organizador_id = o.organizador_id
+            INNER JOIN 
+                sub_organizador so ON o.organizador_id = so.organizador_id;`)
+        res.json({
+            total: result.rowCount,
+            localizacoes: result.rows
+        });
+    } catch (error) {
+        console.error('Erro ao pegar localizacoes com detalhes', error);
+        res.json({ error: error.message });
+    }
+};
 
 export async function getLocalizacoesByParam(req, res) {
     const { param } = req.params;
@@ -52,23 +52,23 @@ export async function getLocalizacoesByParam(req, res) {
         let result;
         if (isNaN(param)) {
             result = await pool.query(`SELECT 
-//                 l.localizacao_id,
-//                 l.ambiente,
-//                 l.organizador_id,
-//                 l.slug,
-//                 o.organizador_id,
-//                 o.nome_organizador,
-//                 o.numero_organizador,
-//                 so.sub_organizador_id,
-//                 so.nome_suborganizador,
-//                 so.numero_suborganizador,
-//                 so.foto_url
-//             FROM 
-//                 localizacoes l
-//             INNER JOIN 
-//                 organizador o ON l.organizador_id = o.organizador_id
-//             INNER JOIN 
-//                 sub_organizador so ON o.organizador_id = so.organizador_id;`, [`%${param}%`]);
+                l.localizacao_id,
+                l.ambiente,
+                l.organizador_id,
+                l.slug,
+                o.organizador_id,
+                o.nome_organizador,
+                o.numero_organizador,
+                so.sub_organizador_id,
+                so.nome_suborganizador,
+                so.numero_suborganizador,
+                so.foto_url
+            FROM 
+                localizacoes l
+            INNER JOIN 
+                organizador o ON l.organizador_id = o.organizador_id
+            INNER JOIN 
+                sub_organizador so ON o.organizador_id = so.organizador_id;`);
         } else {
             result = await pool.query('SELECT * FROM localizacoes WHERE slug = $1;', [param]);
         }
