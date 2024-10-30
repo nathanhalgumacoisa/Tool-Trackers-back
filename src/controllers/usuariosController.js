@@ -75,10 +75,11 @@ export async function deleteUsuarios(req, res) {
 
 // Novo método para atualizar o status do usuário
 export async function updateUserStatus(req, res) {
-    const { user_id } = req.params; // ID do usuário a ser atualizado
-    const { ativo } = req.body; // Novo status (ativo/inativo)
+    const { user_id } = req.params; 
+    const { ativo } = req.body; 
 
     try {
+        // Atualiza apenas o campo 'ativo', mantendo os outros campos inalterados
         const result = await pool.query(
             'UPDATE usuarios SET ativo = $1 WHERE user_id = $2 RETURNING *;',
             [ativo, user_id]
