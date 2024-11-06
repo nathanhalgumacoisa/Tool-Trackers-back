@@ -5,7 +5,7 @@ const pool = new Pool({
   user: 'postgres',
   host: 'localhost',
   database: 'tooltrackers',
-  password: 'ds564',
+  password: '12345',
   port: 7777,
 });
 
