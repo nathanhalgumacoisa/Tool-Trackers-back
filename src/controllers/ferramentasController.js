@@ -118,7 +118,26 @@ export async function getAllFerramentas (req, res) {
     }
 };
 
+export async function updateDisponivelStatus(req, res) {
+    const { ferramenta_id } = req.params; // Obtém o ID da ferramenta da URL
+    const { disponivel } = req.body; // Recebe o novo status do corpo da requisição
 
+    try {
+        const result = await pool.query(
+            'UPDATE ferramentas SET disponivel = $1 WHERE ferramenta_id = $2 RETURNING *;',
+            [disponivel, ferramenta_id]
+        );
+
+        if (result.rowCount === 0) {
+            return res.status(404).json({ error: 'Ferramenta não encontrada' });
+        }
+
+        res.json(result.rows[0]); // Retorna a ferramenta atualizada
+    } catch (error) {
+        console.error('Erro ao atualizar disponibilidade:', error);
+        res.status(500).json({ error: error.message });
+    }
+}
 
 
 export async function getFerramentasByParam (req, res) {
