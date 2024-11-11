@@ -1,6 +1,5 @@
 import pool from "../config/dbConfig.js"
 
-
 export async function getAllFerramentas (req, res) {
     const {
         nome,
@@ -16,20 +15,6 @@ export async function getAllFerramentas (req, res) {
         data
     } = req.body;
 
-    console.log("hahaha")
-    console.log(data)
-
-    console.log(nome,
-        conjunto,
-        numero,
-        patrimonio,
-        modelo,
-        disponivel,
-        conferido,
-        emprestado,
-        manutencao,
-        localizacao_id)
-
     if (!nome && !conjunto && !numero && !patrimonio && !modelo && !disponivel && !conferido && !emprestado && !manutencao && !localizacao_id) {
         try {
             const result = await pool.query('SELECT * FROM ferramentas;');
@@ -37,6 +22,16 @@ export async function getAllFerramentas (req, res) {
                 total: result.rowCount,
                 ferramentas: result.rows
             });
+            console.log(nome,
+                conjunto,
+                numero,
+                patrimonio,
+                modelo,
+                disponivel,
+                conferido,
+                emprestado,
+                manutencao,
+                localizacao_id)
         } catch (error) {
             console.error('Erro ao pegar ferramenta', error);
             res.json({ error: error.message });
@@ -121,7 +116,8 @@ export async function getAllFerramentas (req, res) {
 export async function updateDisponivelStatus(req, res) {
     const { ferramenta_id } = req.params; // Obtém o ID da ferramenta da URL
     const { disponivel } = req.body; // Recebe o novo status do corpo da requisição
-
+console.log(ferramenta_id)
+console.log(disponivel)
     try {
         const result = await pool.query(
             'UPDATE ferramentas SET disponivel = $1 WHERE ferramenta_id = $2 RETURNING *;',
