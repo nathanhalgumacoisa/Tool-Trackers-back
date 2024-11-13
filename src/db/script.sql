@@ -49,36 +49,36 @@ CREATE TABLE sub_organizador(
 );
 
 
-CREATE TYPE tipo_usuario_enum AS ENUM ('aluno', 'administracao', 'instrutor', 'manutencao');
+-- CREATE TYPE tipo_usuario_enum AS ENUM ('aluno', 'administracao', 'instrutor', 'manutencao');
 
-CREATE TABLE usuarios(
- user_id SERIAL PRIMARY KEY,
- nome VARCHAR(50) NOT NULL,
- email VARCHAR(150) NOT NULL,
- numero_nif CHAR(7),
- numero_qrcode CHAR(20),
- tipo_usuario tipo_usuario_enum,
- ativo BOOLEAN DEFAULT TRUE
-);
+-- CREATE TABLE usuarios(
+--  user_id SERIAL PRIMARY KEY,
+--  nome VARCHAR(50) NOT NULL,
+--  email VARCHAR(150) NOT NULL,
+--  numero_nif CHAR(7),
+--  numero_qrcode CHAR(20),
+--  tipo_usuario tipo_usuario_enum,
+--  ativo BOOLEAN DEFAULT TRUE
+-- );
 
-CREATE TYPE organizador_enum AS ENUM ('carrinhos', 'armarios', 'tornos', 'paineis');
+-- CREATE TYPE organizador_enum AS ENUM ('carrinhos', 'armarios', 'tornos', 'paineis');
 
-CREATE TABLE organizador(
- organizador_id SERIAL PRIMARY KEY,
- nome_organizador organizador_enum,
- numero_organizador INTEGER
-);
+-- CREATE TABLE organizador(
+--  organizador_id SERIAL PRIMARY KEY,
+--  nome_organizador organizador_enum,
+--  numero_organizador INTEGER
+-- );
 
-CREATE TYPE sub_organizador_enum AS ENUM ('gavetas', 'prateleiras', 'outros');
+-- CREATE TYPE sub_organizador_enum AS ENUM ('gavetas', 'prateleiras', 'outros');
 
-CREATE TABLE sub_organizador(
- sub_organizador_id SERIAL PRIMARY KEY,
- organizador_id INTEGER,
- nome_suborganizador sub_organizador_enum,
- numero_suborganizador INTEGER,
- foto_url VARCHAR(255),
- FOREIGN KEY (organizador_id) REFERENCES organizador(organizador_id)
-);
+-- CREATE TABLE sub_organizador(
+--  sub_organizador_id SERIAL PRIMARY KEY,
+--  organizador_id INTEGER,
+--  nome_suborganizador sub_organizador_enum,
+--  numero_suborganizador INTEGER,
+--  foto_url VARCHAR(255),
+--  FOREIGN KEY (organizador_id) REFERENCES organizador(organizador_id)
+-- );
 
 CREATE TYPE ambiente_enum AS ENUM ('oficina mecanica de usinagem', 'oficina eletro eletronica', 'especo maker', 'manutenao');
 
