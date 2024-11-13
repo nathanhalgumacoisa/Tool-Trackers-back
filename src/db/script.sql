@@ -44,6 +44,43 @@ CREATE TABLE sub_organizador(
 );
 
 
+<<<<<<< HEAD
+-- CREATE TYPE tipo_usuario_enum AS ENUM ('aluno', 'administracao', 'instrutor', 'manutencao');
+
+-- CREATE TABLE usuarios(
+--  user_id SERIAL PRIMARY KEY,
+--  nome VARCHAR(50) NOT NULL,
+--  email VARCHAR(150) NOT NULL,
+--  numero_nif CHAR(7),
+--  numero_qrcode CHAR(20),
+--  tipo_usuario tipo_usuario_enum,
+--  ativo BOOLEAN DEFAULT TRUE
+-- );
+
+-- CREATE TYPE organizador_enum AS ENUM ('carrinhos', 'armarios', 'tornos', 'paineis');
+
+-- CREATE TABLE organizador(
+--  organizador_id SERIAL PRIMARY KEY,
+--  nome_organizador organizador_enum,
+--  numero_organizador INTEGER
+-- );
+
+-- CREATE TYPE sub_organizador_enum AS ENUM ('gavetas', 'prateleiras', 'outros');
+
+-- CREATE TABLE sub_organizador(
+--  sub_organizador_id SERIAL PRIMARY KEY,
+--  organizador_id INTEGER,
+--  nome_suborganizador sub_organizador_enum,
+--  numero_suborganizador INTEGER,
+--  foto_url VARCHAR(255),
+--  FOREIGN KEY (organizador_id) REFERENCES organizador(organizador_id)
+-- );
+
+CREATE TYPE ambiente_enum AS ENUM ('oficina mecanica de usinagem', 'oficina eletro eletronica', 'especo maker', 'manutenao');
+
+CREATE TYPE slug_enum AS ENUM ('ofm', 'oee', 'em', 'manut');
+=======
+>>>>>>> 5d8acd44afeb1635853396260190af179f4ac100
 
 CREATE TABLE localizacoes(
  localizacao_id SERIAL PRIMARY KEY,
@@ -57,11 +94,11 @@ CREATE TABLE ferramentas(
  ferramenta_id SERIAL PRIMARY KEY,
  nome VARCHAR(100) NOT NULL,
  imagem_url VARCHAR(255) NOT NULL,
- conjunto VARCHAR(30),
- numero VARCHAR(30),
+ conjunto VARCHAR(50),
+ numero VARCHAR(50),
  patrimonio VARCHAR(50),
- modelo VARCHAR(20),
- descricao VARCHAR(20),
+ modelo VARCHAR(100),
+ descricao VARCHAR(100),
  disponivel BOOLEAN DEFAULT TRUE,  
  conferido BOOLEAN DEFAULT FALSE,    
  emprestado BOOLEAN DEFAULT FALSE,    
