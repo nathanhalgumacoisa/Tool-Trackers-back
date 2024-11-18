@@ -291,7 +291,7 @@ export async function updateDisponivelStatus(req, res) {
         return res.status(400).json({ error: 'O campo "disponivel" é necessário.' });
     }
 
-    const isAvailable = (disponivel === 'true'); // Converte para booleano
+    const isAvailable = (disponivel === 'false'); // Converte para booleano
 
     try {
         const result = await pool.query(
