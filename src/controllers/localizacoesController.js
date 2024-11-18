@@ -51,7 +51,8 @@ export async function getLocalizacoesByParam(req, res) {
     try {
         let result;
         if (isNaN(param)) {
-            result = await pool.query(`SELECT 
+            result = await pool.query(`
+                        SELECT 
                 l.localizacao_id,
                 l.ambiente,
                 l.organizador_id,
@@ -84,6 +85,7 @@ export async function getLocalizacoesByParam(req, res) {
 };
 
 export async function createLocalizacoes(req, res) {
+    console.log(req.body);
     try {
         const { ambiente, organizador_id, slug } = req.body;
         const result = await pool.query(
