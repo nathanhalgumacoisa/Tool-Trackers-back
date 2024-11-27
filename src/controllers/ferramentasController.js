@@ -1,6 +1,6 @@
 import pool from "../config/dbConfig.js"
 
-export async function getAllFerramentas (req, res) {
+export async function getAllFerramentas(req, res) {
     const {
         nome,
         conjunto,
@@ -41,7 +41,7 @@ export async function getAllFerramentas (req, res) {
             const filters = [];
             const values = [];
             let query = 'SELECT * FROM ferramentas WHERE 1=1'; // Começa com uma condição verdadeira
-    
+
             console.log(nome,
                 conjunto,
                 numero,
@@ -52,7 +52,7 @@ export async function getAllFerramentas (req, res) {
                 emprestado,
                 manutencao,
                 localizacao_id)
-    
+
             // Adiciona filtros dinamicamente
             if (nome) {
                 filters.push(`nome ILIKE $${filters.length + 1}`);
@@ -94,14 +94,14 @@ export async function getAllFerramentas (req, res) {
                 filters.push(`localizacao_id = $${filters.length + 1}`);
                 values.push(localizacao_id);
             }
-    
+
             // Adiciona os filtros à consulta, se existirem
             if (filters.length > 0) {
                 query += ' AND ' + filters.join(' AND ');
             }
-    
+
             const result = await pool.query(query, values);
-    
+
             res.json({
                 total: result.rowCount,
                 ferramentas: result.rows
@@ -113,32 +113,35 @@ export async function getAllFerramentas (req, res) {
     }
 };
 
-export async function updateDisponivelStatus(req, res) {
-    const { ferramenta_id } = req.params; // Obtém o ID da ferramenta da URL
-    const { disponivel } = req.body; // Recebe o novo status do corpo da requisição
-console.log(ferramenta_id)
-console.log(disponivel)
+export async function updateFerramentaStatus(req, res) {
+    const { ferramenta_id } = req.params;
+    const { disponivel, emprestado, manutencao } = req.body;
+
     try {
         const result = await pool.query(
-            'UPDATE ferramentas SET disponivel = $1 WHERE ferramenta_id = $2 RETURNING *;',
-            [disponivel, ferramenta_id]
+            `UPDATE ferramentas SET 
+                disponivel = $1, 
+                emprestado = $2, 
+                manutencao = $3 
+            WHERE ferramenta_id = $4 RETURNING *`,
+            [disponivel, emprestado, manutencao, ferramenta_id]
         );
 
         if (result.rowCount === 0) {
             return res.status(404).json({ error: 'Ferramenta não encontrada' });
         }
 
-        res.json(result.rows[0]); // Retorna a ferramenta atualizada
+        res.json(result.rows[0]);
     } catch (error) {
-        console.error('Erro ao atualizar disponibilidade:', error);
+        console.error('Erro ao atualizar status:', error);
         res.status(500).json({ error: error.message });
     }
 }
 
 
-export async function getFerramentasByParam (req, res) {
+export async function getFerramentasByParam(req, res) {
     const { param } = req.params;
-    
+
     console.log(param)
 
     try {
@@ -148,7 +151,7 @@ export async function getFerramentasByParam (req, res) {
         } else {
             result = await pool.query('SELECT * FROM ferramentas WHERE ferramenta_id = $1;', [param]);
         }
-       
+
         res.json({
             total: result.rowCount,
             ferramentas: result.rows
@@ -159,14 +162,37 @@ export async function getFerramentasByParam (req, res) {
     }
 };
 
+export async function atualizarStatusFerramenta(req, res) {
+    const { ferramenta_id } = req.params;
+    const { disponivel, manutencao } = req.body;
 
-export async function createFerramentas (req, res)  {
-    console.log("TEEEEESTE");
-    
     try {
-        const { nome, imagem_url, conjunto, numero, patrimonio, modelo, descricao, disponivel, conferido, emprestado, manutencao, localizacaoId} = req.body;
+        const result = await pool.query(
+            `UPDATE ferramentas SET disponivel = $1, manutencao = $2 WHERE ferramenta_id = $3 RETURNING *`,
+            [disponivel, manutencao, ferramenta_id]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ message: 'Ferramenta não encontrada.' });
+        }
+
+        res.status(200).json({
+            message: 'Status atualizado com sucesso.',
+            ferramenta: result.rows[0], // Retorna a ferramenta atualizada
+        });
+    } catch (error) {
+        console.error("Erro ao atualizar o status:", error);
+        res.status(500).json({ message: 'Erro ao atualizar o status.' });
+    }
+};
+
+export async function createFerramentas(req, res) {
+    console.log("TEEEEESTE");
+
+    try {
+        const { nome, imagem_url, conjunto, numero, patrimonio, modelo, descricao, disponivel, conferido, emprestado, manutencao, localizacaoId } = req.body;
         console.log(nome, imagem_url, conjunto, numero, patrimonio, modelo, descricao, disponivel, conferido, emprestado, manutencao, localizacaoId);
-        
+
         const result = await pool.query(
             'INSERT INTO ferramentas (nome, imagem_url, conjunto, numero, patrimonio, modelo, descricao, disponivel, conferido, emprestado, manutencao, localizacao_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *;',
             [nome, imagem_url, conjunto, numero, patrimonio, modelo, descricao, "true", "false", "false", "false", localizacaoId]
@@ -181,13 +207,13 @@ export async function createFerramentas (req, res)  {
 
 
 
-export async function updateFerramentas (req, res) {
-    const { ferramenta_id   } = req.params;
+export async function updateFerramentas(req, res) {
+    const { ferramenta_id } = req.params;
     const { nome, imagem_url, conjunto, numero, patrimonio, modelo, descricao, disponivel, conferido, emprestado, manutencao, localizacao_id } = req.body;
     try {
         const result = await pool.query(
             'UPDATE ferramentas SET nome = $1, imagem_url = $2, conjunto = $3, numero = $4, patrimonio = $5, modelo = $6, descricao = $7, disponivel = $8, conferido = $9, emprestado = $10, manutencao = $11, localizacao_id = $12 WHERE ferramenta_id  = $13 RETURNING *;',
-            [nome, imagem_url, conjunto, numero, patrimonio, modelo, descricao, disponivel, conferido, emprestado, manutencao, localizacao_id, ferramenta_id ]
+            [nome, imagem_url, conjunto, numero, patrimonio, modelo, descricao, disponivel, conferido, emprestado, manutencao, localizacao_id, ferramenta_id]
         );
         res.json(result.rows[0]);
     } catch (error) {
@@ -197,7 +223,7 @@ export async function updateFerramentas (req, res) {
 };
 
 
-export async function deleteFerramentas (req, res) {
+export async function deleteFerramentas(req, res) {
     const { ferramenta_id } = req.params;
     try {
         await pool.query('DELETE FROM ferramentas WHERE ferramenta_id = $1;', [ferramenta_id]);
@@ -244,7 +270,7 @@ export async function getFerramentasByFilters(req, res) {
             filters.push(`nome ILIKE $${filters.length + 1}`);
             values.push(`%${nome}%`);
         }
-        
+
         if (primeiraLetra) {
             filters.push(`nome ILIKE $${filters.length + 1}`);
             values.push(`${primeiraLetra}%`); // Adiciona o wildcard após a primeira letra
