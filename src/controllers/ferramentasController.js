@@ -113,6 +113,7 @@ export async function getAllFerramentas(req, res) {
     }
 };
 
+
 export async function updateFerramentaStatus(req, res) {
     const { ferramenta_id } = req.params;
     const { disponivel, emprestado, manutencao } = req.body;
@@ -330,12 +331,33 @@ export async function getFerramentasByFilters(req, res) {
     }
 };
 
+export async function updateDisponivelStatus(req, res) {
+    const { ferramenta_id } = req.params;
+    const { disponivel } = req.body;
 
+    // Validação de entrada
+    if (!disponivel) {
+        return res.status(400).json({ error: 'O campo "disponivel" é necessário.' });
+    }
 
+    const isAvailable = (disponivel === 'false'); // Converte para booleano
 
+    try {
+        const result = await pool.query(
+            'UPDATE ferramentas SET disponivel = $1 WHERE ferramenta_id = $2 RETURNING *;',
+            [isAvailable, ferramenta_id]
+        );
 
+        if (result.rowCount === 0) {
+            return res.status(404).json({ error: 'Ferramenta não encontrada' });
+        }
 
-
+        res.json(result.rows[0]); // Retorna a ferramenta atualizada
+    } catch (error) {
+        console.error('Erro ao atualizar disponibilidade:', error);
+        res.status(500).json({ error: 'Erro interno do servidor: ' + error.message });
+    }
+}
 
 
 import express from 'express';
